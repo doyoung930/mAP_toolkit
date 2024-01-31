@@ -13,15 +13,48 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="소스 파일\renderer">
+      <UniqueIdentifier>{b4d46c15-87c8-4069-9cbe-9cc6a4dbb615}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\tool">
+      <UniqueIdentifier>{976bba44-461f-487a-abc6-44d443dbf5bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\mAP_calculation">
+      <UniqueIdentifier>{989e4043-c85c-444b-bfe0-9dd6e7f1a9b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="tool\Tool.cpp">
+      <Filter>소스 파일\tool</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer\Renderer.cpp">
+      <Filter>소스 파일\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="mAP_calculation\DefaultMapCalculation.cpp">
+      <Filter>소스 파일\mAP_calculation</Filter>
+    </ClCompile>
+    <ClCompile Include="mAP_calculation\MapCalculation.cpp">
+      <Filter>소스 파일\mAP_calculation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="tool\Tool.h">
+      <Filter>소스 파일\tool</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer\Renderer.h">
+      <Filter>소스 파일\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="mAP_calculation\DefaultMapCalculation.h">
+      <Filter>소스 파일\mAP_calculation</Filter>
+    </ClInclude>
+    <ClInclude Include="mAP_calculation\MapCalculation.h">
+      <Filter>소스 파일\mAP_calculation</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

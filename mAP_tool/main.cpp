@@ -1,49 +1,24 @@
-#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
-#include <GL/glew.h>
 #include <GL/glut.h>
-
-
-#include <iostream>
-#include <experimental/filesystem>
-
-//int main() {
-//    std::experimental::filesystem::path currentPath = std::experimental::filesystem::current_path();
-//    std::cout << "현재 작업 디렉토리: " << currentPath << std::endl;
-//
-//    return 0;
-//}
-
-void render() {
-    glClear(GL_COLOR_BUFFER_BIT);
-    // 여기에 렌더링 코드를 추가할 수 있습니다.
-    glutSwapBuffers();
-}
-
-void reshape(int width, int height) {
-    glViewport(0, 0, width, height);
-}
+#include "tool/Tool.h"
 
 int main(int argc, char** argv) {
-    // GLUT 초기화
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
-    glutCreateWindow("OpenGL Window");
+    glutCreateWindow("mAP Calculation Tool");
 
-    // GLEW 초기화
-    glewExperimental = GL_TRUE;
-    if (glewInit() != GLEW_OK) {
-        fprintf(stderr, "GLEW 초기화 실패\n");
-        return -1;
-    }
+    // OpenGL 설정
+    glEnable(GL_DEPTH_TEST);
 
-    // 렌더링 함수 지정
-    glutDisplayFunc(render);
-    glutReshapeFunc(reshape);
+    // Facade 패턴을 사용하여 기능을 하나로 묶음
+    Tool mapTool;
 
-    // OpenGL 초기화
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    // 파일에서 데이터를 읽어오기
+    std::string fileName = "data.txt";  // 파일 이름은 원하는 파일명으로 변경
+    std::vector<std::string> data;
 
-    // 렌더링 루프 진입
+    // 전체 기능 실행
+    //mapTool.run(data);
+
     glutMainLoop();
 
     return 0;
