@@ -136,6 +136,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="mAPUiRenderer.cpp" />
     <ClCompile Include="mAP_calculation\DefaultMapCalculation.cpp" />
     <ClCompile Include="mAP_calculation\MapCalculation.cpp" />
     <ClCompile Include="renderer\Renderer.cpp" />
@@ -143,6 +144,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header.h" />
+    <ClInclude Include="mAPUiRenderer.h" />
     <ClInclude Include="mAP_calculation\DefaultMapCalculation.h" />
     <ClInclude Include="mAP_calculation\MapCalculation.h" />
     <ClInclude Include="renderer\Renderer.h" />
