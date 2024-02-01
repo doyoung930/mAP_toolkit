@@ -39,6 +39,9 @@
     <ClCompile Include="mAP_calculation\MapCalculation.cpp">
       <Filter>소스 파일\mAP_calculation</Filter>
     </ClCompile>
+    <ClCompile Include="mAPUiRenderer.cpp">
+      <Filter>소스 파일\renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header.h">
@@ -55,6 +58,9 @@
     </ClInclude>
     <ClInclude Include="mAP_calculation\MapCalculation.h">
       <Filter>소스 파일\mAP_calculation</Filter>
+    </ClInclude>
+    <ClInclude Include="mAPUiRenderer.h">
+      <Filter>소스 파일\renderer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
