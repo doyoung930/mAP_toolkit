@@ -28,6 +28,9 @@
     <Filter Include="GUIBackEnd">
       <UniqueIdentifier>{3444a4cd-1250-4143-ab7e-d76524774ad2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\renderer\Windows">
+      <UniqueIdentifier>{73fb59fa-11cf-4e6e-bc7b-bc08b182d1b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -68,6 +71,9 @@
     </ClCompile>
     <ClCompile Include="..\backends\imgui_impl_opengl3.cpp">
       <Filter>GUIBackEnd</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>소스 파일\renderer\Windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -112,6 +118,12 @@
     </ClInclude>
     <ClInclude Include="..\backends\imgui_impl_opengl3.h">
       <Filter>GUIBackEnd</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>소스 파일\renderer\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="ImguiDefine.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

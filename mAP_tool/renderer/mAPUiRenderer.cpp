@@ -1,6 +1,7 @@
 #include "header.h"
 
 #include "mAPUiRenderer.h"
+#include "Window.h"
 
 HGLRC          mAPUiRenderer::g_hRC;
 WGL_WindowData mAPUiRenderer::g_MainWindow;
@@ -87,49 +88,32 @@ int mAPUiRenderer::Main()
         if (done)
             break;
 
-        // Start the Dear ImGui frame
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplWin32_NewFrame();
-        ImGui::NewFrame();
+        Init();
 
         // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-        if (show_demo_window)
-            ImGui::ShowDemoWindow(&show_demo_window);
+        // if (show_demo_window)
+        //     ImGui::ShowDemoWindow(&show_demo_window);
 
-        // 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
+        // 2.
+        for (const auto& w : Windows)
         {
-            static float f = 0.0f;
-            static int counter = 0;
-
-            ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
-            ImGui::SetWindowPos(ImVec2(0, 0));
-            ImGui::SetWindowSize(ImVec2(1600, 900));
-
-            ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-            ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-            ImGui::Checkbox("Another Window", &show_another_window);
-
-            ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-            ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-
-            if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-                counter++;
-            ImGui::SameLine();
-            ImGui::Text("counter = %d", counter);
-
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
-            ImGui::End();
+            w->Render();
         }
+        RenderImageWnd();
+        ButtonListWnd();
+        ImageListWnd();
+        AttributeWnd();
+        CategoriesWnd();
 
         // 3. Show another simple window.
-        if (show_another_window)
-        {
-            ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-            ImGui::Text("Hello from another window!");
-            if (ImGui::Button("Close Me"))
-                show_another_window = false;
-            ImGui::End();
-        }
+        //if (show_another_window)
+        //{
+        //    ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
+        //    ImGui::Text("Hello from another window!");
+        //    if (ImGui::Button("Close Me"))
+        //        show_another_window = false;
+        //    ImGui::End();
+        //}
 
         // Rendering
         ImGui::Render();
@@ -152,6 +136,93 @@ int mAPUiRenderer::Main()
     ::UnregisterClassW(wc.lpszClassName, wc.hInstance);
 
     return 0;
+}
+
+void mAPUiRenderer::Init()
+{
+    // Start the Dear ImGui frame
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplWin32_NewFrame();
+    ImGui::NewFrame();
+}
+
+void mAPUiRenderer::RenderImageWnd()
+{
+    // 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
+    static float f = 0.0f;
+    static int counter = 0;
+    bool isOpen = true;
+
+    ImGui::Begin("Image", &isOpen, ImGuiWindowFlags_NoTitleBar);                          // Create a window called "Hello, world!" and append into it.
+    ImGui::SetWindowPos(ImVec2(100, 0));
+    ImGui::SetWindowSize(ImVec2(1200, 900));
+
+    ImGui::Text("Image");               // Display some text (you can use a format strings too)
+    //ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
+    //ImGui::Checkbox("Another Window", &show_another_window);
+    //
+    //ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+    //ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
+    //
+    //if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+    //    counter++;
+    //ImGui::SameLine();
+    //ImGui::Text("counter = %d", counter);
+    //
+    //ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+    ImGui::End();
+}
+
+void mAPUiRenderer::ButtonListWnd()
+{
+    bool isOpen = true;
+
+    ImGui::Begin("Button List", &isOpen, ImGuiWindowFlags_NoTitleBar);                          // Create a window called "Hello, world!" and append into it.
+    ImGui::SetWindowPos(ImVec2(0, 0));
+    ImGui::SetWindowSize(ImVec2(100, 900));
+
+    ImGui::Text("Image");
+
+    ImGui::End();
+}
+
+void mAPUiRenderer::ImageListWnd()
+{
+    bool isOpen = true;
+
+    ImGui::Begin("Image List", &isOpen, ImGuiWindowFlags_NoTitleBar);                          // Create a window called "Hello, world!" and append into it.
+    ImGui::SetWindowPos(ImVec2(1300, 0));
+    ImGui::SetWindowSize(ImVec2(300, 250));
+
+    ImGui::Text("Image");
+
+    ImGui::End();
+}
+
+void mAPUiRenderer::AttributeWnd()
+{
+    bool isOpen = true;
+
+    ImGui::Begin("Attribute", &isOpen, ImGuiWindowFlags_NoTitleBar);                          // Create a window called "Hello, world!" and append into it.
+    ImGui::SetWindowPos(ImVec2(1300, 250));
+    ImGui::SetWindowSize(ImVec2(300, 250));
+
+    ImGui::Text("Image");
+
+    ImGui::End();
+}
+
+void mAPUiRenderer::CategoriesWnd()
+{
+    bool isOpen = true;
+
+    ImGui::Begin("Category", &isOpen, ImGuiWindowFlags_NoTitleBar);                          // Create a window called "Hello, world!" and append into it.
+    ImGui::SetWindowPos(ImVec2(1300, 500));
+    ImGui::SetWindowSize(ImVec2(300, 400));
+
+    ImGui::Text("Image");
+
+    ImGui::End();
 }
 
 bool mAPUiRenderer::CreateDeviceWGL(HWND hWnd, WGL_WindowData* data)

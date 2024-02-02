@@ -2,15 +2,8 @@
 
 #include "renderer/Renderer.h"
 
-#include "imgui.h"
-#include "imgui_impl_opengl3.h"
-#include "imgui_impl_win32.h"
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN
-#endif
-#include <windows.h>
-#include <GL/GL.h>
-#include <tchar.h>
+#include "ImguiDefine.h"
+#include <vector>
 
 // Data stored per platform window
 struct WGL_WindowData { HDC hDC; };
@@ -30,6 +23,13 @@ public:
 public:
 	int Main();
 
+	void Init();
+	void RenderImageWnd();
+	void ButtonListWnd();
+	void ImageListWnd();
+	void AttributeWnd();
+	void CategoriesWnd();
+
 	// Helper functions
 	bool CreateDeviceWGL(HWND hWnd, WGL_WindowData* data);
 	void CleanupDeviceWGL(HWND hWnd, WGL_WindowData* data);	
@@ -47,5 +47,7 @@ private:
 	static WGL_WindowData   g_MainWindow;
 	static int              g_Width;
 	static int              g_Height;
+
+	std::vector<class Window*> Windows;
 };
 

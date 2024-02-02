@@ -148,11 +148,13 @@
     <ClCompile Include="renderer\mAPUiRenderer.cpp" />
     <ClCompile Include="renderer\Renderer.cpp" />
     <ClCompile Include="tool\Tool.cpp" />
+    <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\backends\imgui_impl_opengl3.h" />
     <ClInclude Include="..\backends\imgui_impl_win32.h" />
     <ClInclude Include="header.h" />
+    <ClInclude Include="ImguiDefine.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_internal.h" />
@@ -164,6 +166,7 @@
     <ClInclude Include="renderer\mAPUiRenderer.h" />
     <ClInclude Include="renderer\Renderer.h" />
     <ClInclude Include="tool\Tool.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
