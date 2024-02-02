@@ -142,7 +142,16 @@ void Init()
 int main() {
     Init();
 
-    std::string directoryPath = "C:\\Users\\user\\Desktop\\LPR vat\\aihub_lpr";
+    std::string directoryPath;// = "C:\\Users\\user\\Desktop\\LPR vat\\aihub_lpr";
+    std::cout << "Enter Your Directory Path: ";
+    std::getline(std::cin, directoryPath);
+
+    //size_t found = directoryPath.find("\\");
+    //while (found != std::string::npos) {
+    //    directoryPath.replace(found, 1, "\\\\");
+    //    found = directoryPath.find("\\", found + 2);  // 다음 검색 위치 설정
+    //}
+
     readAndCompareTxtFiles(directoryPath);
 
     return 0;
