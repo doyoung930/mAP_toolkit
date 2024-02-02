@@ -13,6 +13,26 @@ std::string GetIntToStr(std::string str)
     return CharMap[std::stoi(str)];
 }
 
+std::string GetRealFilename(std::string str)
+{
+    int Index = 0;
+
+    std::string returnStr;
+
+    size_t dashPos = str.find('-');
+    if (dashPos != std::string::npos)
+    {
+        std::string result = str.substr(0, dashPos);
+        return result;
+    }
+    else
+    {
+        size_t dotPos = str.find('.');
+        std::string result = str.substr(0, dotPos);
+        return result;
+    }
+}
+
 void readAndCompareTxtFiles(const std::string& directoryPath) {
     try {
         for (const auto& entry : fs::directory_iterator(directoryPath)) {
@@ -44,7 +64,9 @@ void readAndCompareTxtFiles(const std::string& directoryPath) {
                         ResultString += GetIntToStr(temp);
                     }
 
-                    if (std::string::npos == filename.find(ResultString))
+                    //if (std::string::npos == filename.find(ResultString))
+                    std::string temp = GetRealFilename(filename);
+                    if (temp != ResultString)
                     {
                         std::cout << "File: " << filename << std::endl;
                         std::cout << "\"" << ResultString << "\" is Different!" << std::endl;
