@@ -14,7 +14,7 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 class mAPUiRenderer : public Renderer
 {
 public:
-	mAPUiRenderer() {}
+	mAPUiRenderer();
 	~mAPUiRenderer() {}
 
 	void render();
@@ -24,11 +24,6 @@ public:
 	int Main();
 
 	void Init();
-	void RenderImageWnd();
-	void ButtonListWnd();
-	void ImageListWnd();
-	void AttributeWnd();
-	void CategoriesWnd();
 
 	// Helper functions
 	bool CreateDeviceWGL(HWND hWnd, WGL_WindowData* data);

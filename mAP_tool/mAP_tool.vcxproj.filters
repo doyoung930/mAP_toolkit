@@ -125,5 +125,8 @@
     <ClInclude Include="ImguiDefine.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="imgui\stb_image.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

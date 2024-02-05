@@ -8,6 +8,17 @@ WGL_WindowData mAPUiRenderer::g_MainWindow;
 int            mAPUiRenderer::g_Width;
 int            mAPUiRenderer::g_Height;
 
+using std::string;
+
+mAPUiRenderer::mAPUiRenderer()
+{
+    Windows.emplace_back(new ImageWindow(string("Image"), string("Image"), ImVec2(100, 0), ImVec2(1200, 900)));
+    Windows.emplace_back(new ButtonWindow(string("Button List"), string("Image"), ImVec2(0, 0), ImVec2(100, 900)));
+    Windows.emplace_back(new ImageListWindow(string("Image List"), string("Image"), ImVec2(1300, 0), ImVec2(300, 250)));
+    Windows.emplace_back(new AttributeWindow(string("Attribute"), string("Image"), ImVec2(1300, 250), ImVec2(300, 250)));
+    Windows.emplace_back(new CategoriesWindow(string("Category"), string("Image"), ImVec2(1300, 500), ImVec2(300, 400)));
+}
+
 void mAPUiRenderer::render()
 {
 	ImGui::Begin("Test");
@@ -99,11 +110,6 @@ int mAPUiRenderer::Main()
         {
             w->Render();
         }
-        RenderImageWnd();
-        ButtonListWnd();
-        ImageListWnd();
-        AttributeWnd();
-        CategoriesWnd();
 
         // 3. Show another simple window.
         //if (show_another_window)
@@ -146,84 +152,32 @@ void mAPUiRenderer::Init()
     ImGui::NewFrame();
 }
 
-void mAPUiRenderer::RenderImageWnd()
-{
-    // 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
-    static float f = 0.0f;
-    static int counter = 0;
-    bool isOpen = true;
-
-    ImGui::Begin("Image", &isOpen, ImGuiWindowFlags_NoTitleBar);                          // Create a window called "Hello, world!" and append into it.
-    ImGui::SetWindowPos(ImVec2(100, 0));
-    ImGui::SetWindowSize(ImVec2(1200, 900));
-
-    ImGui::Text("Image");               // Display some text (you can use a format strings too)
-    //ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-    //ImGui::Checkbox("Another Window", &show_another_window);
-    //
-    //ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-    //ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-    //
-    //if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-    //    counter++;
-    //ImGui::SameLine();
-    //ImGui::Text("counter = %d", counter);
-    //
-    //ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
-    ImGui::End();
-}
-
-void mAPUiRenderer::ButtonListWnd()
-{
-    bool isOpen = true;
-
-    ImGui::Begin("Button List", &isOpen, ImGuiWindowFlags_NoTitleBar);                          // Create a window called "Hello, world!" and append into it.
-    ImGui::SetWindowPos(ImVec2(0, 0));
-    ImGui::SetWindowSize(ImVec2(100, 900));
-
-    ImGui::Text("Image");
-
-    ImGui::End();
-}
-
-void mAPUiRenderer::ImageListWnd()
-{
-    bool isOpen = true;
-
-    ImGui::Begin("Image List", &isOpen, ImGuiWindowFlags_NoTitleBar);                          // Create a window called "Hello, world!" and append into it.
-    ImGui::SetWindowPos(ImVec2(1300, 0));
-    ImGui::SetWindowSize(ImVec2(300, 250));
-
-    ImGui::Text("Image");
-
-    ImGui::End();
-}
-
-void mAPUiRenderer::AttributeWnd()
-{
-    bool isOpen = true;
-
-    ImGui::Begin("Attribute", &isOpen, ImGuiWindowFlags_NoTitleBar);                          // Create a window called "Hello, world!" and append into it.
-    ImGui::SetWindowPos(ImVec2(1300, 250));
-    ImGui::SetWindowSize(ImVec2(300, 250));
-
-    ImGui::Text("Image");
-
-    ImGui::End();
-}
-
-void mAPUiRenderer::CategoriesWnd()
-{
-    bool isOpen = true;
-
-    ImGui::Begin("Category", &isOpen, ImGuiWindowFlags_NoTitleBar);                          // Create a window called "Hello, world!" and append into it.
-    ImGui::SetWindowPos(ImVec2(1300, 500));
-    ImGui::SetWindowSize(ImVec2(300, 400));
-
-    ImGui::Text("Image");
-
-    ImGui::End();
-}
+//void mAPUiRenderer::RenderImageWnd()
+//{
+//    // 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
+//    static float f = 0.0f;
+//    static int counter = 0;
+//    bool isOpen = true;
+//
+//    ImGui::Begin("Image", &isOpen, ImGuiWindowFlags_NoTitleBar);                          // Create a window called "Hello, world!" and append into it.
+//    ImGui::SetWindowPos(ImVec2(100, 0));
+//    ImGui::SetWindowSize(ImVec2(1200, 900));
+//
+//    ImGui::Text("Image");               // Display some text (you can use a format strings too)
+//    //ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
+//    //ImGui::Checkbox("Another Window", &show_another_window);
+//    //
+//    //ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+//    //ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
+//    //
+//    //if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+//    //    counter++;
+//    //ImGui::SameLine();
+//    //ImGui::Text("counter = %d", counter);
+//    //
+//    //ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+//    ImGui::End();
+//}
 
 bool mAPUiRenderer::CreateDeviceWGL(HWND hWnd, WGL_WindowData* data)
 {
