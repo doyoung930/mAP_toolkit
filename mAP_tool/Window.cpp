@@ -81,6 +81,7 @@ void ButtonWindow::Render(bool IsCalledSuper)
 
     if (ImGui::Button("Directory"))
     {
+        cout << "AAA" << endl;
     }
 
 
