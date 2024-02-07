@@ -82,31 +82,6 @@ std::string Window::GetFileDirectory()
     }
 
     return std::string("");
-    //OPENFILENAME OFN;
-    //TCHAR filePathName[100] = L"";
-    //TCHAR lpstrFile[100] = L"";
-    //static TCHAR filter[] = L"모든 파일\0*.*\0텍스트 파일\0*.txt\0fbx 파일\0*.fbx";
-
-    //HWND hWnd = GetActiveWindow();
-
-    //memset(&OFN, 0, sizeof(OPENFILENAME));
-    //OFN.lStructSize = sizeof(OPENFILENAME);
-    //OFN.hwndOwner = hWnd;
-    //OFN.lpstrFilter = filter;
-    //OFN.lpstrFile = lpstrFile;
-    //OFN.nMaxFile = 100;
-    //OFN.lpstrInitialDir = L".";
-
-    //if (GetOpenFileName(&OFN) != 0)
-    //{
-    //    wsprintf(filePathName, L"%s 파일을 열겠습니까?", OFN.lpstrFile);
-    //    MessageBox(hWnd, filePathName, L"열기 선택", MB_OK);
-
-    //    std::string t = ToString(OFN.lpstrFile);
-
-    //    return t;
-    //}
-    //return std::string("");
 }
 
 std::string Window::ToString(std::wstring value)
@@ -134,9 +109,8 @@ void ButtonWindow::Render()
     {
         cout << "AAA" << endl;
 
-        std::string FileDirectory;
-        FileDirectory = GetFileDirectory();
-        if (FileDirectory != "")
+        FilePath = GetFileDirectory();
+        if (FilePath != "")
         {
 
         }
@@ -148,7 +122,6 @@ void ButtonWindow::Render()
 
 void ImageListWindow::Render()
 {
-    static int current_part_idx{ 0 };
     if(ImGui::BeginListBox("Draw List", ImVec2(300, 900)))
     {
         const char* items[] = { "AAAA",    "BBBB", "CCCC", "DDDD",  "EEEE", "FFFF",  "GGGG",  "HHHH", "IIII",   "JJJJ", "KKKK",
@@ -156,8 +129,8 @@ void ImageListWindow::Render()
         
         for (int n = 0; n < IM_ARRAYSIZE(items); ++n)
         {
-            const bool is_selected = (current_part_idx == n);
-            if (ImGui::Selectable(items[n], is_selected)) { current_part_idx = n; }
+            const bool is_selected = (CurrentSelectIndex == n);
+            if (ImGui::Selectable(items[n], is_selected)) { CurrentSelectIndex = n; }
 
             // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
             if (is_selected) { ImGui::SetItemDefaultFocus(); }
@@ -171,5 +144,9 @@ void AttributeWindow::Render()
 }
 
 void CategoriesWindow::Render()
+{
+}
+
+void SetOtherWindowName(Window* other, const char* text)
 {
 }

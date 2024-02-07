@@ -3,6 +3,10 @@
 #include <string>
 #include "ImguiDefine.h"
 
+class Window;
+
+void SetOtherWindowName(Window* other, const char* text);
+
 class Window
 {
 public:
@@ -33,13 +37,8 @@ protected:
 	ImVec2 WndPos;
 	ImVec2 WndSize;
 
-	//friend void SetOtherWindowName(Window* other, const char* text);
+	friend void SetOtherWindowName(Window* other, const char* text);
 };
-
-//void SetOtherWindowName(Window* other, const char* text)
-//{
-//	
-//}
 
 class ImageWindow : public Window
 {
@@ -59,16 +58,23 @@ public:
 	{}
 
 	void Render();
+
+private:
+	std::string FilePath;
 };
 
 class ImageListWindow : public Window
 {
 public:
 	ImageListWindow(std::string Beginname, std::string Wndname, ImVec2 Wndpos, ImVec2 Wndsize)
-		: Window(Beginname, Wndname, Wndpos, Wndsize)
+		: Window(Beginname, Wndname, Wndpos, Wndsize),
+		CurrentSelectIndex(0)
 	{}
 
 	void Render();
+
+private:
+	int CurrentSelectIndex;
 };
 
 class AttributeWindow : public Window
