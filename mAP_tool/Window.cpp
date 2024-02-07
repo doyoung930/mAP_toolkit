@@ -3,11 +3,13 @@
 #include "imgui/stb_image.h"
 #include <Windows.h>
 
+#include <commdlg.h>
+
 #include <iostream>
 using std::cout;
 using std::endl;
 
-void Window::Render(bool IsCalledSuper)
+void Window::InitRender()
 {
     bool isOpen = true;
 
@@ -16,9 +18,11 @@ void Window::Render(bool IsCalledSuper)
     ImGui::SetWindowSize(WndSize);
 
     ImGui::Text(WndName.c_str());
+}
 
-    if(!IsCalledSuper)
-        ImGui::End();
+void Window::EndRender()
+{
+    ImGui::End();
 }
 
 bool Window::LoadTextureFromFile(const char* filename, GLuint* out_texture, int* out_width, int* out_height)
@@ -59,31 +63,100 @@ bool Window::LoadTextureFromFile(const char* filename, GLuint* out_texture, int*
     return true;
 }
 
-void ImageWindow::Render(bool IsCalledSuper)
+#include <shlobj.h>
+std::string Window::GetFileDirectory()
 {
-    __super::Render(true);
+    TCHAR folderPath[MAX_PATH] = L"";
 
-    int my_image_width = 0;
-    int my_image_height = 0;
-    GLuint my_image_texture = 0;
-    bool ret = LoadTextureFromFile("C:\\Users\\user\\Desktop\\LPR vat\\aihub_lpr\\경기37바1383.jpg",
-                                        &my_image_texture, &my_image_width, &my_image_height);
-    IM_ASSERT(ret);
+    BROWSEINFO bi = { 0 };
+    bi.lpszTitle = L"폴더 선택";
+    bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_NEWDIALOGSTYLE;
 
-    ImGui::Image((void*)(intptr_t)my_image_texture, ImVec2(my_image_width, my_image_height));
+    LPITEMIDLIST pidl = SHBrowseForFolder(&bi);
+    if (pidl != NULL)
+    {
+        SHGetPathFromIDList(pidl, folderPath);
+        CoTaskMemFree(pidl);
 
-    ImGui::End();
+        return ToString(folderPath);
+    }
+
+    return std::string("");
+    //OPENFILENAME OFN;
+    //TCHAR filePathName[100] = L"";
+    //TCHAR lpstrFile[100] = L"";
+    //static TCHAR filter[] = L"모든 파일\0*.*\0텍스트 파일\0*.txt\0fbx 파일\0*.fbx";
+
+    //HWND hWnd = GetActiveWindow();
+
+    //memset(&OFN, 0, sizeof(OPENFILENAME));
+    //OFN.lStructSize = sizeof(OPENFILENAME);
+    //OFN.hwndOwner = hWnd;
+    //OFN.lpstrFilter = filter;
+    //OFN.lpstrFile = lpstrFile;
+    //OFN.nMaxFile = 100;
+    //OFN.lpstrInitialDir = L".";
+
+    //if (GetOpenFileName(&OFN) != 0)
+    //{
+    //    wsprintf(filePathName, L"%s 파일을 열겠습니까?", OFN.lpstrFile);
+    //    MessageBox(hWnd, filePathName, L"열기 선택", MB_OK);
+
+    //    std::string t = ToString(OFN.lpstrFile);
+
+    //    return t;
+    //}
+    //return std::string("");
 }
 
-void ButtonWindow::Render(bool IsCalledSuper)
+std::string Window::ToString(std::wstring value)
 {
-    __super::Render(true);
+    std::string temp;
+    temp.assign(value.begin(), value.end());
+    return temp;
+}
 
+void ImageWindow::Render()
+{
+    //int my_image_width = 0;
+    //int my_image_height = 0;
+    //GLuint my_image_texture = 0;
+    //bool ret = LoadTextureFromFile("C:\\Users\\user\\Desktop\\LPR vat\\aihub_lpr\\경기37바1383.jpg",
+    //                                    &my_image_texture, &my_image_width, &my_image_height);
+    //IM_ASSERT(ret);
+
+    //ImGui::Image((void*)(intptr_t)my_image_texture, ImVec2(my_image_width, my_image_height));
+}
+
+void ButtonWindow::Render()
+{
     if (ImGui::Button("Directory"))
     {
         cout << "AAA" << endl;
+
+        std::string FileDirectory;
+        FileDirectory = GetFileDirectory();
+        if (FileDirectory != "")
+        {
+
+        }
+
+        // 디렉토리path에 있는 모든 파일 검사
+        //for (const auto& file : directory_iterator(path)) cout << file.path() << endl;
     }
+}
 
+void ImageListWindow::Render()
+{
+    int a = 0;
+    char c[] = { "a", "b" };
+    ImGui::ListBox("ABC", &a, c, 2);
+}
 
-    ImGui::End();
+void AttributeWindow::Render()
+{
+}
+
+void CategoriesWindow::Render()
+{
 }

@@ -108,7 +108,9 @@ int mAPUiRenderer::Main()
         // 2.
         for (const auto& w : Windows)
         {
+            w->InitRender();
             w->Render();
+            w->EndRender();
         }
 
         // 3. Show another simple window.
