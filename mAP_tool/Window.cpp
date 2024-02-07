@@ -148,9 +148,22 @@ void ButtonWindow::Render()
 
 void ImageListWindow::Render()
 {
-    int a = 0;
-    char c[] = { "a", "b" };
-    ImGui::ListBox("ABC", &a, c, 2);
+    static int current_part_idx{ 0 };
+    if(ImGui::BeginListBox("Draw List", ImVec2(300, 900)))
+    {
+        const char* items[] = { "AAAA",    "BBBB", "CCCC", "DDDD",  "EEEE", "FFFF",  "GGGG",  "HHHH", "IIII",   "JJJJ", "KKKK",
+                                   "LLLLLLL", "MMMM", "NNNN", "OOOOO", "PPP",  "QQQQQ", "RRRRR", "SSSS", "TTTTTT", "UUU" };
+        
+        for (int n = 0; n < IM_ARRAYSIZE(items); ++n)
+        {
+            const bool is_selected = (current_part_idx == n);
+            if (ImGui::Selectable(items[n], is_selected)) { current_part_idx = n; }
+
+            // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+            if (is_selected) { ImGui::SetItemDefaultFocus(); }
+        }
+    }
+    ImGui::EndListBox();
 }
 
 void AttributeWindow::Render()

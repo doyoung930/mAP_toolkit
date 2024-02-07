@@ -33,7 +33,13 @@ protected:
 	ImVec2 WndPos;
 	ImVec2 WndSize;
 
+	//friend void SetOtherWindowName(Window* other, const char* text);
 };
+
+//void SetOtherWindowName(Window* other, const char* text)
+//{
+//	
+//}
 
 class ImageWindow : public Window
 {
