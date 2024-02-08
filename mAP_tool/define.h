@@ -1,10 +1,7 @@
 #pragma once
 
 struct BoundingBox {
-	float x;
-	float y;
-	float w;
-	float h;
+	float x, y, width, height;
 	float score;
 };
 
