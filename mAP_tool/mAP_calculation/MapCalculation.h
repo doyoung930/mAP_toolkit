@@ -31,7 +31,7 @@ private:
     std::vector<PrecisionRecall> CalculationPR();
     float calculateAP(const std::vector<PrecisionRecall>& precision_recall);
     float calculateMAP();
-    void calculateMap(const vector<string>& data);
+    void callData(const vector<string>& data);
    
 
 };
