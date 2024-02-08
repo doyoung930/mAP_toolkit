@@ -1,12 +1,17 @@
 #pragma once
 
 struct BoundingBox {
-	float b_x;
-	float b_y;
-	float b_w;
-	float b_h;
-	float b_s;
+	float x;
+	float y;
+	float w;
+	float h;
+	float score;
+};
 
+struct ConfusionMatrix {
+	float fp;
+	float tp;
+	float fn;
 };
 
 struct PrecisionRecall {
@@ -14,4 +19,7 @@ struct PrecisionRecall {
 	float recall;
 };
 
-float iou_threshold;
+std::vector<std::string> id;
+
+float threshold = 0.5;
+float user_threshold;
