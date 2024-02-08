@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="..\backends\imgui_impl_opengl3.h" />
     <ClInclude Include="..\backends\imgui_impl_win32.h" />
+    <ClInclude Include="define.h" />
     <ClInclude Include="header.h" />
     <ClInclude Include="ImguiDefine.h" />
     <ClInclude Include="imgui\imconfig.h" />
