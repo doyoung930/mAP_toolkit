@@ -1,9 +1,6 @@
 #include "DefaultMapCalculation.h"
 
 
-void DefaultMapCalculation::calculateMap(const std::vector<std::string>& data) {
-    // calculateMap 함수의 구현
-}
 
 void DefaultMapCalculation::CalculationOverLapping() {
     // CalculationOverLapping 함수의 구현

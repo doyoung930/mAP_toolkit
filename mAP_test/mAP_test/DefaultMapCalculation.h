@@ -5,8 +5,9 @@
 #include "define.h"
 
 
-class DefaultMapCalculation : {
+class DefaultMapCalculation {
 public:
+    void calculateMap(const std::vector<std::string>& data) ;
 
     std::unordered_map<std::string, BoundingBox> _true_bboxes;
     std::unordered_map<std::string, BoundingBox> _predicted_bboxes;
@@ -19,7 +20,6 @@ public:
     float t = 0.5;
     float epsilon = 0.001;
 
-private:
     void CalculationOverLapping();
     float calculateIoU(const BoundingBox& box1, const BoundingBox& box2);
     float CompareIoU(float a, float b);
