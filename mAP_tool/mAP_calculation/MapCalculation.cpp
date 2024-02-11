@@ -20,6 +20,25 @@ void MapCalculation::CalculationOverLapping() {
     }
 }
 
+void MapCalculation::SaveIoU()
+{
+    // CalculationOverLapping 함수의 구현
+    for (const auto& true_bbox : _true_bboxes) {
+        const std::string& class_name = true_bbox.first;
+        const BoundingBox& true_box = true_bbox.second;
+
+        if (_predicted_bboxes.find(class_name) != _predicted_bboxes.end()) {
+            const BoundingBox& predicted_box = _predicted_bboxes[class_name];
+
+            // Calculate overlapping area using IoU
+            float IoU = calculateIoU(true_box, predicted_box);
+
+            // Add calculated overlapping area to _overlapping_area
+            _IoU.push_back(IoU);
+        }
+    }
+}
+
 float MapCalculation::calculateIoU(const BoundingBox& box1, const BoundingBox& box2) {
     // calculateIoU 함수의 구현
     float intersection_width = std::max(0.f, std::min(box1.x + box1.width, box2.x + box2.width) - std::max(box1.x, box2.x));
@@ -39,6 +58,10 @@ float MapCalculation::CompareIoU(float a, float b) {
     return (a > b) ? a : b;
 }
 
+void MapCalculation::CalculationTPFPFN() {
+
+}
+ 
 std::vector<PrecisionRecall> MapCalculation::CalculationPR() {
     // CalculationPR 함수의 구현
     std::vector<PrecisionRecall> precision_recall_list;
