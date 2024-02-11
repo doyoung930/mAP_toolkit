@@ -23,6 +23,8 @@ int main() {
     // CalculationOverLapping 함수 호출
     mapCalculation.CalculationOverLapping();
 
+    // PR을 구하는 곳
+
     // AP 계산 예시
     std::vector<PrecisionRecall> precisionRecallList;
     PrecisionRecall pr1 = { 0.8, 0.6 };

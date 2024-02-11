@@ -13,6 +13,7 @@ public:
     ~MapCalculation() {}
 
 public:
+    vector<std::string> _ids;
 
     std::unordered_map<std::string, BoundingBox> _true_bboxes;
     std::unordered_map<std::string, BoundingBox> _predicted_bboxes;

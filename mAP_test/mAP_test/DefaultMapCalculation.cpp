@@ -12,10 +12,11 @@ void DefaultMapCalculation::CalculationOverLapping() {
             const BoundingBox& predicted_box = _predicted_bboxes[class_name];
 
             // Calculate overlapping area using IoU
-            float iou = calculateIoU(true_box, predicted_box);
+            float overlapping_area = calculateIoU(true_box, predicted_box);
 
             // Add calculated overlapping area to _overlapping_area
-            _IoU.push_back(iou);
+            _overlapping_area.push_back(overlapping_area);
+
         }
     }
 }
@@ -33,6 +34,13 @@ float DefaultMapCalculation::calculateIoU(const BoundingBox& box1, const Boundin
 
     return intersection_area / union_area;
 }
+
+float DefaultMapCalculation::CompareIoU(float a, float b) {
+    // CompareIoU 함수의 구현
+    return (a > b) ? a : b;
+}
+
+//IOU를 이용해서 confidence_matrix에 저장 하는 함수
 
 std::vector<PrecisionRecall> DefaultMapCalculation::CalculationPR() {
     // CalculationPR 함수의 구현
