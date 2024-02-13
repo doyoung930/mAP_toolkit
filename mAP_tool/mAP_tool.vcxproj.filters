@@ -31,6 +31,9 @@
     <Filter Include="소스 파일\renderer\Windows">
       <UniqueIdentifier>{73fb59fa-11cf-4e6e-bc7b-bc08b182d1b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\renderer\WindowObserver">
+      <UniqueIdentifier>{a3e2bbb1-528b-49b2-9662-f001f539159c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -74,6 +77,27 @@
     </ClCompile>
     <ClCompile Include="Window.cpp">
       <Filter>소스 파일\renderer\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageListWindow.cpp">
+      <Filter>소스 파일\renderer\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="AttributeWindow.cpp">
+      <Filter>소스 파일\renderer\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonWindow.cpp">
+      <Filter>소스 파일\renderer\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="CategoriesWindow.cpp">
+      <Filter>소스 파일\renderer\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageWindow.cpp">
+      <Filter>소스 파일\renderer\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowObserver.cpp">
+      <Filter>소스 파일\renderer\WindowObserver</Filter>
+    </ClCompile>
+    <ClCompile Include="Observer.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -127,6 +151,30 @@
     </ClInclude>
     <ClInclude Include="imgui\stb_image.h">
       <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageListWindow.h">
+      <Filter>소스 파일\renderer\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="AttributeWindow.h">
+      <Filter>소스 파일\renderer\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonWindow.h">
+      <Filter>소스 파일\renderer\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="CategoriesWindow.h">
+      <Filter>소스 파일\renderer\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageWindow.h">
+      <Filter>소스 파일\renderer\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>소스 파일\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowObserver.h">
+      <Filter>소스 파일\renderer\WindowObserver</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

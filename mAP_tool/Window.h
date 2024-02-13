@@ -1,11 +1,15 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include "ImguiDefine.h"
 
+using std::vector;
 class Window;
+class WindowObserver;
 
 void SetOtherWindowName(Window* other, const char* text);
+void SetFilePath(Window* other, std::string text);
 
 class Window
 {
@@ -30,70 +34,19 @@ public:
 
 	std::string ToString(std::wstring value);
 
+	void SetObserver(WindowObserver* ob) { Observer = ob; };
+
 protected:
 	std::string BeginName;
 	std::string WndName;
 
 	ImVec2 WndPos;
 	ImVec2 WndSize;
+	WindowObserver* Observer;
 
 	friend void SetOtherWindowName(Window* other, const char* text);
 };
 
-class ImageWindow : public Window
-{
-public:
-	ImageWindow(std::string Beginname, std::string Wndname, ImVec2 Wndpos, ImVec2 Wndsize)
-		: Window(Beginname, Wndname, Wndpos, Wndsize)
-	{}
 
-	void Render();
-};
 
-class ButtonWindow : public Window
-{
-public:
-	ButtonWindow(std::string Beginname, std::string Wndname, ImVec2 Wndpos, ImVec2 Wndsize)
-		: Window(Beginname, Wndname, Wndpos, Wndsize)
-	{}
-
-	void Render();
-
-private:
-	std::string FilePath;
-};
-
-class ImageListWindow : public Window
-{
-public:
-	ImageListWindow(std::string Beginname, std::string Wndname, ImVec2 Wndpos, ImVec2 Wndsize)
-		: Window(Beginname, Wndname, Wndpos, Wndsize),
-		CurrentSelectIndex(0)
-	{}
-
-	void Render();
-
-private:
-	int CurrentSelectIndex;
-};
-
-class AttributeWindow : public Window
-{
-public:
-	AttributeWindow(std::string Beginname, std::string Wndname, ImVec2 Wndpos, ImVec2 Wndsize)
-		: Window(Beginname, Wndname, Wndpos, Wndsize)
-	{}
-
-	void Render();
-};
-
-class CategoriesWindow : public Window
-{
-public:
-	CategoriesWindow(std::string Beginname, std::string Wndname, ImVec2 Wndpos, ImVec2 Wndsize)
-		: Window(Beginname, Wndname, Wndpos, Wndsize)
-	{}
-
-	void Render();
-};
 

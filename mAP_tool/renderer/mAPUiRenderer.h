@@ -3,7 +3,9 @@
 #include "renderer/Renderer.h"
 
 #include "ImguiDefine.h"
-#include <vector>
+#include <unordered_map>
+
+#include "Event.h"
 
 // Data stored per platform window
 struct WGL_WindowData { HDC hDC; };
@@ -15,7 +17,7 @@ class mAPUiRenderer : public Renderer
 {
 public:
 	mAPUiRenderer();
-	~mAPUiRenderer() {}
+	~mAPUiRenderer();
 
 	void render();
 
@@ -36,6 +38,8 @@ public:
 	// Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
 	static LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
+	void ProcessNotify();
+
 private:
 	// Data
 	static HGLRC            g_hRC;
@@ -43,6 +47,7 @@ private:
 	static int              g_Width;
 	static int              g_Height;
 
-	std::vector<class Window*> Windows;
+	std::unordered_map<int, class Window*> Windows;
+	class WindowObserver* WndObserver;
 };
 

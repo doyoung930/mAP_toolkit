@@ -8,11 +8,13 @@
 
 // This is provided for completeness, however it is strongly recommended you use OpenGL with SDL or GLFW.
 
-
+#pragma execution_character_set("utf-8")
 #include "renderer/mAPUiRenderer.h"
 // Main code
 int main(int, char**)
 {
+    setlocale(LC_ALL, "");
+
     mAPUiRenderer* renderer = new mAPUiRenderer();
 
     return renderer->Main();

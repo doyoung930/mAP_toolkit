@@ -31,6 +31,8 @@ IMGUI_IMPL_API void     ImGui_ImplWin32_EnableAlphaCompositing(void* hwnd);   //
 
 #endif // #ifndef IMGUI_DISABLE
 
+#define FONTSIZE 18.0f
+
 
 using std::cout;
 using std::endl;

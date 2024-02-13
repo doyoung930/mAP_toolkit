@@ -91,62 +91,11 @@ std::string Window::ToString(std::wstring value)
     return temp;
 }
 
-void ImageWindow::Render()
-{
-    //int my_image_width = 0;
-    //int my_image_height = 0;
-    //GLuint my_image_texture = 0;
-    //bool ret = LoadTextureFromFile("C:\\Users\\user\\Desktop\\LPR vat\\aihub_lpr\\경기37바1383.jpg",
-    //                                    &my_image_texture, &my_image_width, &my_image_height);
-    //IM_ASSERT(ret);
-
-    //ImGui::Image((void*)(intptr_t)my_image_texture, ImVec2(my_image_width, my_image_height));
-}
-
-void ButtonWindow::Render()
-{
-    if (ImGui::Button("Directory"))
-    {
-        cout << "AAA" << endl;
-
-        FilePath = GetFileDirectory();
-        if (FilePath != "")
-        {
-
-        }
-
-        // 디렉토리path에 있는 모든 파일 검사
-        //for (const auto& file : directory_iterator(path)) cout << file.path() << endl;
-    }
-}
-
-void ImageListWindow::Render()
-{
-    if(ImGui::BeginListBox("Draw List", ImVec2(300, 900)))
-    {
-        const char* items[] = { "AAAA",    "BBBB", "CCCC", "DDDD",  "EEEE", "FFFF",  "GGGG",  "HHHH", "IIII",   "JJJJ", "KKKK",
-                                   "LLLLLLL", "MMMM", "NNNN", "OOOOO", "PPP",  "QQQQQ", "RRRRR", "SSSS", "TTTTTT", "UUU" };
-        
-        for (int n = 0; n < IM_ARRAYSIZE(items); ++n)
-        {
-            const bool is_selected = (CurrentSelectIndex == n);
-            if (ImGui::Selectable(items[n], is_selected)) { CurrentSelectIndex = n; }
-
-            // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
-            if (is_selected) { ImGui::SetItemDefaultFocus(); }
-        }
-    }
-    ImGui::EndListBox();
-}
-
-void AttributeWindow::Render()
-{
-}
-
-void CategoriesWindow::Render()
-{
-}
-
 void SetOtherWindowName(Window* other, const char* text)
+{
+
+}
+
+void SetFilePath(Window* other, std::string text)
 {
 }
