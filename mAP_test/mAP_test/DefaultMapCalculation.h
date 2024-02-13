@@ -28,4 +28,9 @@ public:
     std::vector<PrecisionRecall> CalculationPR();
     float calculateAP(const std::vector<PrecisionRecall>& precision_recall);
     float calculateMAP();
+
+    PrecisionRecall DefaultMapCalculation::calculatePrecisionRecall(int TP, int FP, int FN);
+
+    // Function to calculate TP, FP, FN and Precision, Recall using IoU
+    PrecisionRecall DefaultMapCalculation::calculateTPFPFN(const std::string& className, float threshold = 0.5f) {
 };

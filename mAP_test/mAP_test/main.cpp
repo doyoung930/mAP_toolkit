@@ -20,6 +20,14 @@ int main() {
 
     mapCalculation._true_bboxes["class3"] = { 0, 0, 8, 8 };
     mapCalculation._predicted_bboxes["class3"] = { 0, 0, 6, 6 };
+
+    // 추가적인 예시 BoundingBox 추가 (class4 ~ class20)
+    for (float i = 4; i <= 20; ++i) {
+        std::string className = "class" + std::to_string(i);
+        mapCalculation._true_bboxes[className] = { 0, 0, i * 2, i * 2 };
+        mapCalculation._predicted_bboxes[className] = { 0, 0, i * 2 - 2, i * 2 - 2 };
+    }
+
     // CalculationOverLapping 함수 호출
     mapCalculation.CalculationOverLapping();
 
