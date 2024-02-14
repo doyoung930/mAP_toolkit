@@ -9,18 +9,31 @@ namespace fs = std::filesystem;
 
 void ImageListWindow::Render()
 {
-    if (ImGui::BeginListBox("Draw List", ImVec2(300, 900)))
+    if (CurrentSelectIndex == -1)
     {
-        for (int n = 0; n < ImageNames.size(); ++n)
-        {
-            const bool is_selected = (CurrentSelectIndex == n);
-            if (ImGui::Selectable(ImageNames[n].c_str(), is_selected)) { CurrentSelectIndex = n; }
-
-            // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
-            if (is_selected) { ImGui::SetItemDefaultFocus(); }
-        }
+        ImGui::Text("None");
+        return;
     }
-    ImGui::EndListBox();
+
+    if (DiffCurrentIndex)
+    {
+        SetRenderText();
+    }
+
+    ImGui::Text(IndexStr.c_str());
+
+    //if (ImGui::BeginListBox("Draw List", ImVec2(300, 900)))
+    //{
+    //    for (int n = 0; n < ImageNames.size(); ++n)
+    //    {
+    //        const bool is_selected = (CurrentSelectIndex == n);
+    //        if (ImGui::Selectable(ImageNames[n].c_str(), is_selected)) { CurrentSelectIndex = n; }
+
+    //        // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+    //        if (is_selected) { ImGui::SetItemDefaultFocus(); }
+    //    }
+    //}
+    //ImGui::EndListBox();
 }
 
 void ImageListWindow::LoadImageWithPath(std::string path)
@@ -44,4 +57,9 @@ void ImageListWindow::LoadImageWithPath(std::string path)
             ImageNames.emplace_back(filename);
         }
     }
+}
+
+void ImageListWindow::SetRenderText()
+{
+    IndexStr = (*CateArray)[CurrentSelectIndex];
 }

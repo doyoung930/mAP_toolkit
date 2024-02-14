@@ -33,6 +33,12 @@ IMGUI_IMPL_API void     ImGui_ImplWin32_EnableAlphaCompositing(void* hwnd);   //
 
 #define FONTSIZE 18.0f
 
+#define MAINIMAGEWINDOW			'ImWd'
+#define MAINBUTTONWINDOW		'BtWd'
+#define MAINIMAGELISTWINDOW		'ILWd'
+#define MAINATTRIBUTEWINDOW		'AtWd'
+#define MAINCATEGORYWINDOW		'CtWd'
+
 
 using std::cout;
 using std::endl;

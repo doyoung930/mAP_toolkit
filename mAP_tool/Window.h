@@ -19,7 +19,8 @@ public:
 		:	BeginName(Beginname),
 			WndName(Wndname),
 			WndPos(Wndpos),
-			WndSize(Wndsize)
+			WndSize(Wndsize),
+			CurrentSelectIndex(-1)
 	{}
 	virtual ~Window() {}
 
@@ -35,6 +36,8 @@ public:
 	std::string ToString(std::wstring value);
 
 	void SetObserver(WindowObserver* ob) { Observer = ob; };
+	void SetSelectIndex(int index);
+	void SetCateArray(std::vector<std::string>* CateArray) { this->CateArray = CateArray; }
 
 protected:
 	std::string BeginName;
@@ -44,7 +47,10 @@ protected:
 	ImVec2 WndSize;
 	WindowObserver* Observer;
 
-	friend void SetOtherWindowName(Window* other, const char* text);
+	int CurrentSelectIndex;
+	bool DiffCurrentIndex;
+
+	std::vector<std::string>* CateArray;
 };
 
 

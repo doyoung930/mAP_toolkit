@@ -6,7 +6,7 @@ class ImageListWindow : public Window
 public:
 	ImageListWindow(std::string Beginname, std::string Wndname, ImVec2 Wndpos, ImVec2 Wndsize)
 		: Window(Beginname, Wndname, Wndpos, Wndsize),
-		CurrentSelectIndex(0)
+		IndexStr("")
 	{}
 
 	void Render();
@@ -14,7 +14,9 @@ public:
 	void LoadImageWithPath(std::string path);
 
 private:
-	int CurrentSelectIndex;
+	void SetRenderText();
+	
 	std::string FilePath;
 	std::vector<std::string> ImageNames;
+	std::string IndexStr;
 };

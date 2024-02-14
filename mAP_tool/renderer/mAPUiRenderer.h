@@ -26,6 +26,7 @@ public:
 	int Main();
 
 	void Init();
+	void InitCategory();
 
 	// Helper functions
 	bool CreateDeviceWGL(HWND hWnd, WGL_WindowData* data);
@@ -49,5 +50,7 @@ private:
 
 	std::unordered_map<int, class Window*> Windows;
 	class WindowObserver* WndObserver;
+
+	std::vector<std::string> CateArray;
 };
 

@@ -91,9 +91,17 @@ std::string Window::ToString(std::wstring value)
     return temp;
 }
 
-void SetOtherWindowName(Window* other, const char* text)
+void Window::SetSelectIndex(int index)
 {
-
+    if (index == CurrentSelectIndex)
+    {
+        DiffCurrentIndex = false;
+    }
+    else
+    {
+        DiffCurrentIndex = true;
+        CurrentSelectIndex = index;
+    }
 }
 
 void SetFilePath(Window* other, std::string text)

@@ -1,3 +1,5 @@
+#include "header.h"
+
 #include "ButtonWindow.h"
 #include "WindowObserver.h"
 
@@ -15,7 +17,7 @@ void ButtonWindow::Render()
         if (FilePath != "")
         {
             //SetFilePath()
-            Observer->OnNotify('ILWd', EventEnum::SET_DIRECTORY_PATH, &FilePath[0]);
+            Observer->OnNotify(MAINIMAGELISTWINDOW, EventEnum::SET_DIRECTORY_PATH, &FilePath[0]);
         }
 
         // 디렉토리path에 있는 모든 파일 검사
