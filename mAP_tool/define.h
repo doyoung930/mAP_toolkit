@@ -2,7 +2,6 @@
 
 struct BoundingBox {
 	float x, y, width, height;
-	float score;
 };
 
 struct ConfusionMatrix {

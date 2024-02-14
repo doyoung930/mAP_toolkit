@@ -1,73 +1,47 @@
-#include <iostream>
-#include <vector>
-#include "DefaultMapCalculation.h"
+#include "MapCalculation.h"
+#include "define.h" // Assuming you have this header for definitions
+#include <string>
 
 int main() {
+  
     // 예시 데이터 생성
-    std::vector<std::string> data = { "class1", "class2", "class3" };
+    std::unordered_map<std::string, BoundingBox> true_bboxes;
+    std::unordered_map<std::string, BoundingBox> predicted_bboxes;
 
-    // DefaultMapCalculation 객체 생성
-    DefaultMapCalculation mapCalculation;
+    // 한 클래스에 대한 예시 데이터 생성
+    std::string class_name = "class_1";
+    // 실제 Bounding Box 생성 (예시: [0, 0, 10, 10])
+    true_bboxes[class_name] = BoundingBox{ 0, 0, 10, 10 };
+    // 예측된 Bounding Box 생성 (실제 Bounding Box를 포함하지 않도록 설정)
+    predicted_bboxes["class_2"] = BoundingBox{ 0, 0, 9, 9 }; // 실제 Bounding Box를 포함하지 않도록 설정하여 FN이 발생하도록 함
 
-    // 예시 데이터로 calculateMap 함수 호출
-   // mapCalculation.calculateMap(data);
+    // MapCalculation 객체 생성
+    MapCalculation map_calculation;
 
-    // 예시로 BoundingBox 추가
-    mapCalculation._true_bboxes["class1"] = { 0, 0, 10, 10 };
-    mapCalculation._predicted_bboxes["class1"] = { 0, 0, 8, 8 };
-    mapCalculation._true_bboxes["class2"] = { 0, 0, 12, 12 };
-    mapCalculation._predicted_bboxes["class2"] = { 0, 0, 10, 10 };
+    // 예시 데이터로 MapCalculation 객체에 데이터 전달
+    map_calculation._true_bboxes = true_bboxes;
+    map_calculation._predicted_bboxes = predicted_bboxes;
 
-    mapCalculation._true_bboxes["class3"] = { 0, 0, 8, 8 };
-    mapCalculation._predicted_bboxes["class3"] = { 0, 0, 6, 6 };
+    // IoU 계산 및 저장
+    map_calculation.SaveIoU();
 
-    // 추가적인 예시 BoundingBox 추가 (class4 ~ class20)
-    for (float i = 4; i <= 20; ++i) {
-        std::string className = "class" + std::to_string(i);
-        mapCalculation._true_bboxes[className] = { 0, 0, i * 2, i * 2 };
-        mapCalculation._predicted_bboxes[className] = { 0, 0, i * 2 - 2, i * 2 - 2 };
+    // TP, FP, FN 계산
+    map_calculation.CalculationTPFPFN();
+    for (const auto& entry : map_calculation._id_confidence_matrix) {
+        std::cout << "Class: " << entry.first << ", Confidence: " << entry.second << std::endl;
     }
+    // Precision-Recall 및 AP 계산
+    //std::vector<PrecisionRecall> precision_recall = map_calculation.CalculationPR();
+    //float ap = map_calculation.calculateAP(precision_recall);
 
-    // CalculationOverLapping 함수 호출
-    mapCalculation.CalculationOverLapping();
+    //// AP 결과 출력
+    //std::cout << "Average Precision (AP): " << ap << std::endl;
 
-    // PR을 구하는 곳
+    //// mAP 계산
+    //float map = map_calculation.calculateMAP();
 
-    // AP 계산 예시
-    std::vector<PrecisionRecall> precisionRecallList;
-    PrecisionRecall pr1 = { 0.8, 0.6 };
-    PrecisionRecall pr2 = { 0.7, 0.5 };
-    precisionRecallList.push_back(pr1);
-    precisionRecallList.push_back(pr2);
-    float ap = mapCalculation.calculateAP(precisionRecallList);
-    mapCalculation.APs["class1"] = ap;
-
-    std::vector<PrecisionRecall> precisionRecallList2;
-    PrecisionRecall pr2_1 = { 0.85, 0.7 };
-    PrecisionRecall pr2_2 = { 0.75, 0.6 };
-    precisionRecallList2.push_back(pr2_1);
-    precisionRecallList2.push_back(pr2_2);
-    float ap2 = mapCalculation.calculateAP(precisionRecallList2);
-    mapCalculation.APs["class2"] = ap2;
-
-    std::vector<PrecisionRecall> precisionRecallList3;
-    PrecisionRecall pr3_1 = { 0.9, 0.8 };
-    PrecisionRecall pr3_2 = { 0.8, 0.7 };
-    precisionRecallList3.push_back(pr3_1);
-    precisionRecallList3.push_back(pr3_2);
-    float ap3 = mapCalculation.calculateAP(precisionRecallList3);
-    mapCalculation.APs["class3"] = ap3;
-
-    // mAP 계산 예시
-    float mAP = mapCalculation.calculateMAP();
-
-    // 결과 출력
-    std::cout << "mAP: " << mAP << std::endl;
-
-    // 각 클래스의 AP 출력
-    for (const auto& ap : mapCalculation.APs) {
-        std::cout << "AP for " << ap.first << ": " << ap.second << std::endl;
-    }
+    //// mAP 결과 출력
+    //std::cout << "Mean Average Precision (mAP): " << map << std::endl;
 
     return 0;
 }
