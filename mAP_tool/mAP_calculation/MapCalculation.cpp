@@ -2,18 +2,21 @@
 
 
 
-void MapCalculation::SaveIoU(){
-    for (const auto& true_bbox : _true_bboxes) {
-        const std::string& class_name = true_bbox.first;
-        const BoundingBox& true_box = true_bbox.second;
+void MapCalculation::SaveIoU() {
 
-        if (_predicted_bboxes.find(class_name) != _predicted_bboxes.end()) {
-            const BoundingBox& predicted_box = _predicted_bboxes[class_name];
-            float IoU = CalculateIoU(true_box, predicted_box);
-            _id_IoU.insert(std::make_pair(class_name, IoU));
-        }
+    auto true_it = _true_bboxes.begin();
+    auto predicted_it = _predicted_bboxes.begin();
+    for (; true_it != _true_bboxes.end()
+        && predicted_it != _predicted_bboxes.end();
+        ++true_it, ++predicted_it) {
+        const int& class_name = true_it->first;
+        const BoundingBox& true_box = true_it->second;
+        const BoundingBox& predicted_box = predicted_it->second;
+        float IoU = CalculateIoU(true_box, predicted_box);
+        _id_IoU.insert(std::make_pair(class_name, IoU));
     }
 }
+
 
 float MapCalculation::CalculateIoU(const BoundingBox& box1, const BoundingBox& box2) {
     float intersection_width = std::max(0.f, std::min(box1.x + box1.width, box2.x + box2.width) - std::max(box1.x, box2.x));
