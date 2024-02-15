@@ -32,12 +32,40 @@ float MapCalculation::CalculateIoU(const BoundingBox& box1, const BoundingBox& b
 }
 
 
+//void MapCalculation::CalculationTPFPFN() {
+//    auto true_it = _true_bboxes.begin();
+//    auto predicted_it = _predicted_bboxes.begin();
+//    auto iou_it = _id_IoU.begin();
+//    for (; true_it != _true_bboxes.end() && predicted_it != _predicted_bboxes.end(); 
+//        ++true_it, ++predicted_it , ++iou_it) {
+//        // true_bboxes와 predicted_bboxes에서 해당 위치의 BoundingBox 비교
+//        if (true_it->first == predicted_it->first) {
+//            // 
+//            if (iou_it->second >= t) {
+//                // tp
+//                _id_confidence_matrix.insert(std::make_pair(true_it->first, 1));
+//            }
+//            else  {
+//                // fn
+//                _id_confidence_matrix.insert(std::make_pair(true_it->first, 2));
+//            }
+//        }
+//        else {
+//            if (iou_it->second >= t) {
+//                // fp
+//                _id_confidence_matrix.insert(std::make_pair(true_it->first, 3));
+//            }
+//        }
+//    }
+//
+//}
+
 void MapCalculation::CalculationTPFPFN() {
     auto true_it = _true_bboxes.begin();
     auto predicted_it = _predicted_bboxes.begin();
     auto iou_it = _id_IoU.begin();
-    for (; true_it != _true_bboxes.end() && predicted_it != _predicted_bboxes.end(); 
-        ++true_it, ++predicted_it , ++iou_it) {
+    for (; true_it != _true_bboxes.end() && predicted_it != _predicted_bboxes.end();
+        ++true_it, ++predicted_it, ++iou_it) {
         // true_bboxes와 predicted_bboxes에서 해당 위치의 BoundingBox 비교
         if (true_it->first == predicted_it->first) {
             // 
@@ -45,7 +73,7 @@ void MapCalculation::CalculationTPFPFN() {
                 // tp
                 _id_confidence_matrix.insert(std::make_pair(true_it->first, 1));
             }
-            else  {
+            else {
                 // fn
                 _id_confidence_matrix.insert(std::make_pair(true_it->first, 2));
             }
@@ -59,25 +87,16 @@ void MapCalculation::CalculationTPFPFN() {
     }
 
 }
- 
-std::vector<PrecisionRecall> MapCalculation::CalculationPR() {
-    // CalculationPR 함수의 구현
-    std::vector<PrecisionRecall> precision_recall_list;
 
-    //for (const ConfusionMatrix& confidence_matrix : _confidence_matrix) {
-    //    PrecisionRecall pr;
-    //    pr.precision = confidence_matrix.tp / (confidence_matrix.tp + confidence_matrix.fp);
-    //    pr.recall = confidence_matrix.tp / (confidence_matrix.tp + confidence_matrix.fn);
-
-    //    precision_recall_list.push_back(pr);
-    //}
+PrecisionRecall MapCalculation::CalculationPR() {
+    PrecisionRecall precision_recall_list;
 
     return precision_recall_list;
 }
 
 float MapCalculation::calculateAP(const std::vector<PrecisionRecall>& precision_recall) {
-    // calculateAP 함수의 구현
-    // Precision-Recall 곡선을 정렬하여 Recall이 증가하는 순서로 정렬합니다.
+
+
     std::vector<PrecisionRecall> sorted_precision_recall = precision_recall;
     std::sort(sorted_precision_recall.begin(), sorted_precision_recall.end(),
         [](const PrecisionRecall& a, const PrecisionRecall& b) {
@@ -88,15 +107,15 @@ float MapCalculation::calculateAP(const std::vector<PrecisionRecall>& precision_
     float prev_recall = 0.0;
     float prev_precision = 1.0;
 
-    // Precision-Recall 곡선을 탐색하면서 trapezoidal rule을 적용하여 AP를 계산합니다.
+
     for (const auto& pr : sorted_precision_recall) {
         float recall = pr.recall;
         float precision = pr.precision;
 
-        // 현재 Recall 값과 이전 Recall 값 사이의 면적을 계산하여 AP에 추가합니다.
+
         ap += (recall - prev_recall) * ((precision + prev_precision) / 2.0);
 
-        // 현재 Recall 및 Precision 값을 저장합니다.
+
         prev_recall = recall;
         prev_precision = precision;
     }

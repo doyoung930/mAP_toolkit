@@ -14,11 +14,12 @@ public:
 
 public:
     std::unordered_map<std::string, BoundingBox> _true_bboxes;
+   // std::unordered_map<int, BoundingBox> _true_bboxes;
     std::unordered_map<std::string, BoundingBox> _predicted_bboxes;
     std::unordered_map < std::string, float > _id_IoU;
 
     // TP : 1, FN : 2, FP : 3 
-    std::unordered_map<std::string, int > _id_confidence_matrix;
+    std::unordered_multimap<std::string, int > _id_confidence_matrix;
 
     std::unordered_map<std::string, std::vector<PrecisionRecall>> _precision_recall;
     std::unordered_map<std::string, float> APs;
