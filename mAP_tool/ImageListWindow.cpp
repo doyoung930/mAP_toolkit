@@ -9,8 +9,15 @@ namespace fs = std::filesystem;
 
 void ImageListWindow::Render()
 {
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    io.Fonts->Fonts[0]->FontSize = 8.f;
+    ChangedFontSize = true;
     if (CurrentSelectIndex == -1)
     {
+        //ImGui::SetWindowFontScale(1.2f);
+        auto CenterPos = GetWindowCenter(ImGui::CalcTextSize("None"));
+        ImGui::SetCursorPosX(CenterPos.x);
+        ImGui::SetCursorPosY(CenterPos.y);
         ImGui::Text("None");
         return;
     }
@@ -19,8 +26,8 @@ void ImageListWindow::Render()
     {
         SetRenderText();
     }
-
-    ImGui::Text(IndexStr.c_str());
+    ImGui::Text(IndexStr.c_str());    
+    //io.Fonts->Fonts[0]->FontSize = 18.f;
 
     //if (ImGui::BeginListBox("Draw List", ImVec2(300, 900)))
     //{
@@ -28,7 +35,6 @@ void ImageListWindow::Render()
     //    {
     //        const bool is_selected = (CurrentSelectIndex == n);
     //        if (ImGui::Selectable(ImageNames[n].c_str(), is_selected)) { CurrentSelectIndex = n; }
-
     //        // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
     //        if (is_selected) { ImGui::SetItemDefaultFocus(); }
     //    }

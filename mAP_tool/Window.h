@@ -20,7 +20,8 @@ public:
 			WndName(Wndname),
 			WndPos(Wndpos),
 			WndSize(Wndsize),
-			CurrentSelectIndex(-1)
+			CurrentSelectIndex(-1),
+			ChangedFontSize(false)
 	{}
 	virtual ~Window() {}
 
@@ -39,6 +40,8 @@ public:
 	void SetSelectIndex(int index);
 	void SetCateArray(std::vector<std::string>* CateArray) { this->CateArray = CateArray; }
 
+	ImVec2 GetWindowCenter(ImVec2 RenderObjectSize);
+
 protected:
 	std::string BeginName;
 	std::string WndName;
@@ -49,6 +52,8 @@ protected:
 
 	int CurrentSelectIndex;
 	bool DiffCurrentIndex;
+
+	bool ChangedFontSize;
 
 	std::vector<std::string>* CateArray;
 };

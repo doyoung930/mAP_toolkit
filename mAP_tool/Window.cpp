@@ -1,4 +1,6 @@
 #define STB_IMAGE_IMPLEMENTATION
+#include "header.h"
+
 #include "Window.h"
 #include "imgui/stb_image.h"
 #include <Windows.h>
@@ -23,6 +25,13 @@ void Window::InitRender()
 void Window::EndRender()
 {
     ImGui::End();
+
+    if (ChangedFontSize)
+    {
+        ImGuiIO& io = ImGui::GetIO(); (void)io;
+        io.Fonts->Fonts[0]->FontSize = FONTSIZE;
+        ChangedFontSize = false;
+    }
 }
 
 bool Window::LoadTextureFromFile(const char* filename, GLuint* out_texture, int* out_width, int* out_height)
@@ -104,6 +113,10 @@ void Window::SetSelectIndex(int index)
     }
 }
 
-void SetFilePath(Window* other, std::string text)
+ImVec2 Window::GetWindowCenter(ImVec2 RenderObjectSize)
 {
+    ImVec2 ReturnValue;
+    ReturnValue.x = (WndSize.x - RenderObjectSize.x) / 2;
+    ReturnValue.y = (WndSize.y - RenderObjectSize.y) / 2;
+    return ReturnValue;
 }
