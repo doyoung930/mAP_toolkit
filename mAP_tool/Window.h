@@ -35,6 +35,7 @@ public:
 	std::string GetFileDirectory();
 
 	std::string ToString(std::wstring value);
+	std::wstring ToWString(std::string value);
 
 	void SetObserver(WindowObserver* ob) { Observer = ob; };
 	void SetSelectIndex(int index);

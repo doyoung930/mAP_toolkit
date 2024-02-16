@@ -100,6 +100,13 @@ std::string Window::ToString(std::wstring value)
     return temp;
 }
 
+std::wstring Window::ToWString(std::string value)
+{
+    std::wstring temp;
+    temp.assign(value.begin(), value.end());
+    return temp;
+}
+
 void Window::SetSelectIndex(int index)
 {
     if (index == CurrentSelectIndex)

@@ -10,23 +10,22 @@ namespace fs = std::filesystem;
 void ImageListWindow::Render()
 {
     ImGuiIO& io = ImGui::GetIO(); (void)io;
-    io.Fonts->Fonts[0]->FontSize = 8.f;
+    auto NowFont = io.Fonts->Fonts[0];
+    NowFont->FontSize = 8.f;
     ChangedFontSize = true;
-    if (CurrentSelectIndex == -1)
+    if (CurrentSelectIndex != -1)
     {
-        //ImGui::SetWindowFontScale(1.2f);
-        auto CenterPos = GetWindowCenter(ImGui::CalcTextSize("None"));
-        ImGui::SetCursorPosX(CenterPos.x);
-        ImGui::SetCursorPosY(CenterPos.y);
-        ImGui::Text("None");
-        return;
+        if (DiffCurrentIndex)
+        {
+            SetRenderText();
+        }
     }
 
-    if (DiffCurrentIndex)
-    {
-        SetRenderText();
-    }
-    ImGui::Text(IndexStr.c_str());    
+    //ImGui::SetWindowFontScale(1.2f);ImGui::CalcTextSize(IndexStr.c_str())
+    auto CenterPos = GetWindowCenter(NowFont->CalcTextSizeA(NowFont->FontSize, FLT_MAX, 0.0f, (char*)IndexStr.c_str()));
+    ImGui::SetCursorPosX(CenterPos.x);
+    ImGui::SetCursorPosY(CenterPos.y);
+    ImGui::Text((char*)IndexStr.c_str());
     //io.Fonts->Fonts[0]->FontSize = 18.f;
 
     //if (ImGui::BeginListBox("Draw List", ImVec2(300, 900)))
@@ -67,5 +66,5 @@ void ImageListWindow::LoadImageWithPath(std::string path)
 
 void ImageListWindow::SetRenderText()
 {
-    IndexStr = (*CateArray)[CurrentSelectIndex];
+    IndexStr = ToWString((*CateArray)[CurrentSelectIndex]);
 }

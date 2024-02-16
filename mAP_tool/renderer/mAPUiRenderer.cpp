@@ -25,7 +25,8 @@ mAPUiRenderer::mAPUiRenderer()
 
     Windows.insert(std::pair(MAINIMAGEWINDOW, new ImageWindow(string("Image"), string("Image"), ImVec2(100, 0), ImVec2(1200, 900))));
     Windows[MAINBUTTONWINDOW] = new ButtonWindow(string("Button List"), string("Image"), ImVec2(0, 0), ImVec2(100, 900));
-    Windows[MAINIMAGELISTWINDOW] = new ImageListWindow(string("Image List"), string("Image"), ImVec2(1300, 0), ImVec2(300, 250));
+    //TODO: 크기가 15 넘어감 왜?
+    Windows[MAINIMAGELISTWINDOW] = new ImageListWindow(string("Image List"), string("Image"), ImVec2(1300, 0), ImVec2(285, 250));
     Windows[MAINATTRIBUTEWINDOW] = new AttributeWindow(string("Attribute"), string("Image"), ImVec2(1300, 250), ImVec2(300, 250));
     Windows[MAINCATEGORYWINDOW] = new CategoriesWindow(string("Category"), string("Class/AP"), ImVec2(1300, 500), ImVec2(300, 400));
 
