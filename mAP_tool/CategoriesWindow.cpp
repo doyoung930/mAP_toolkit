@@ -17,10 +17,10 @@ void CategoriesWindow::Render()
         {
             RenderUnicode((*CateArray)[n], n);
         }
+        ImGui::EndListBox();
     }
     Observer->OnNotify(MAINIMAGEWINDOW, EventEnum::SET_CURRENT_SELECT, &CurrentSelectIndex);
     Observer->OnNotify(MAINIMAGELISTWINDOW, EventEnum::SET_CURRENT_SELECT, &CurrentSelectIndex);
-    ImGui::EndListBox();
 }
 
 void CategoriesWindow::RenderUnicode(std::string str, int n)

@@ -25,7 +25,9 @@ void ImageListWindow::Render()
     auto CenterPos = GetWindowCenter(NowFont->CalcTextSizeA(NowFont->FontSize, FLT_MAX, 0.0f, (char*)IndexStr.c_str()));
     ImGui::SetCursorPosX(CenterPos.x);
     ImGui::SetCursorPosY(CenterPos.y);
-    ImGui::Text((char*)IndexStr.c_str());
+    ImGui::Text((char*)IndexStr.c_str(), 25);
+
+
     //io.Fonts->Fonts[0]->FontSize = 18.f;
 
     //if (ImGui::BeginListBox("Draw List", ImVec2(300, 900)))

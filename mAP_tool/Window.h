@@ -15,19 +15,13 @@ class Window
 {
 public:
 	// TODO: 빌더 디자인 패턴 사용해보자
-	Window(std::string Beginname, std::string Wndname, ImVec2 Wndpos, ImVec2 Wndsize)
-		:	BeginName(Beginname),
-			WndName(Wndname),
-			WndPos(Wndpos),
-			WndSize(Wndsize),
-			CurrentSelectIndex(-1),
-			ChangedFontSize(false)
-	{}
+	Window(std::string Beginname, std::string Wndname, ImVec2 Wndpos, ImVec2 Wndsize, ImVec4 BgColor = ImVec4(0.f, 0.f, 0.f, .8f));
 	virtual ~Window() {}
 
 	// 창 생성과 이름 같은 공통적인 작업을 모아둠
 	void InitRender();
 	void EndRender();
+	virtual void ProcessAfterEndRender() {};
 
 	virtual void Render() = 0;
 
@@ -51,12 +45,16 @@ protected:
 	ImVec2 WndSize;
 	WindowObserver* Observer;
 
+	ImVec4 WndBgColor;
+	ImGuiStyle WndStyle;
+
 	int CurrentSelectIndex;
 	bool DiffCurrentIndex;
 
 	bool ChangedFontSize;
 
 	std::vector<std::string>* CateArray;
+
 };
 
 

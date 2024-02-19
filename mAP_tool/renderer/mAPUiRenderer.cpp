@@ -23,7 +23,7 @@ mAPUiRenderer::mAPUiRenderer()
     WndObserver = WindowObserver::Instance();
     InitCategory();
 
-    Windows.insert(std::pair(MAINIMAGEWINDOW, new ImageWindow(string("Image"), string("Image"), ImVec2(100, 0), ImVec2(1200, 900))));
+    Windows.insert(std::pair(MAINIMAGEWINDOW, new ImageWindow(string("Image"), string("Image"), ImVec2(100, 0), ImVec2(1200, 900), ImVec4(.8f, 0.2f, 0.2f, .8f))));
     Windows[MAINBUTTONWINDOW] = new ButtonWindow(string("Button List"), string("Image"), ImVec2(0, 0), ImVec2(100, 900));
     //TODO: 크기가 15 넘어감 왜?
     Windows[MAINIMAGELISTWINDOW] = new ImageListWindow(string("Image List"), string("Image"), ImVec2(1300, 0), ImVec2(285, 250));
@@ -135,9 +135,10 @@ int mAPUiRenderer::Main()
         // 2.
         for (const auto& w : Windows)
         {
-            w.second->InitRender();
-            w.second->Render();
-            w.second->EndRender();
+            w.second->InitRender();             // Being() Function
+            w.second->Render();                 // Main Render
+            w.second->EndRender();              // End() Function
+            w.second->ProcessAfterEndRender();  // Reset Font or Bg Color
         }
 
         // Process Event Queue Notify

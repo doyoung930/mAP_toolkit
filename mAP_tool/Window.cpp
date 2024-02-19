@@ -11,11 +11,32 @@
 using std::cout;
 using std::endl;
 
+Window::Window(std::string Beginname, std::string Wndname, ImVec2 Wndpos, ImVec2 Wndsize, ImVec4 BgColor)
+    : BeginName(Beginname),
+    WndName(Wndname),
+    WndPos(Wndpos),
+    WndSize(Wndsize),
+    CurrentSelectIndex(-1),
+    ChangedFontSize(false),
+    WndBgColor(BgColor)
+{
+}
+
 void Window::InitRender()
 {
+    ImGuiWindowFlags window_flags = 0;
     bool isOpen = true;
 
-    ImGui::Begin(BeginName.c_str(), &isOpen, ImGuiWindowFlags_NoTitleBar);                          // Create a window called "Hello, world!" and append into it.
+    ImGuiStyle* style = &ImGui::GetStyle();
+    ImVec4* colors = style->Colors;
+
+    colors[ImGuiCol_WindowBg] = WndBgColor;
+
+    window_flags |= ImGuiWindowFlags_NoTitleBar;
+    window_flags |= ImGuiWindowFlags_NoMove;
+    window_flags |= ImGuiWindowFlags_NoResize;
+
+    ImGui::Begin(BeginName.c_str(), &isOpen, window_flags);                          // Create a window called "Hello, world!" and append into it.
     ImGui::SetWindowPos(WndPos);
     ImGui::SetWindowSize(WndSize);
 
