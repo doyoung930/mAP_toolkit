@@ -1,16 +1,24 @@
 #pragma once
 
 struct BoundingBox {
+	int id;
 	float x, y, width, height;
 };
-
-struct ConfusionMatrix {
-	float fp;
-	float tp;
-	float fn;
+struct IdIoU {
+	int id;
+	float iou;
 };
+struct ConfusionMatrix {
+	int id;
 
+	int matrix;
+};
+struct TpFpFn {
+	int tp, fp, fn;
+};
 struct PrecisionRecall {
+	int id;
+
 	float precision;
 	float recall;
 };
