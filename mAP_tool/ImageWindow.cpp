@@ -37,6 +37,7 @@ void ImageWindow::Render()
     
 
     // 
+    //ImGui::PushStyleVar(ImGuiStyleVar_ButtonTextAlign, ImVec2(0, 0));
     for (int item = 0; item < CateArray->size(); item++)
     {
         if (item > 0)
@@ -56,6 +57,7 @@ void ImageWindow::Render()
         ImGui::Button(ApStr, ImVec2(40.0f, CanUseHeight * APArray[item]));
         ImGui::PopStyleColor(3);
     }
+    //ImGui::PopStyleVar();
 
     if (child_is_visible) // Avoid calling SetScrollHereY when running with culled items
     {
@@ -64,16 +66,13 @@ void ImageWindow::Render()
         {
             if (item > 0)
                 ImGui::SameLine();
-            //if (enable_track && item == track_item)
-            //{
-            //    ImGui::TextColored(ImVec4(1, 1, 0, 1), "Item %d", item);
-            //    ImGui::SetScrollHereX(0 * 0.25f); // 0.0f:left, 0.5f:center, 1.0f:right
-            //}
-            //else
-            //{
-            //}
-            std::string PrintText = (*CateArray)[item];
-            TextCentered(PrintText, 40);
+
+            std::string PrintText;
+            if (item == 0)
+                PrintText = "Uk";
+            else
+                PrintText = (*CateArray)[item];
+            TextCentered(PrintText, 40 + 8, item);
             RenderUnicode(PrintText);
         }
     }
@@ -90,21 +89,25 @@ void ImageWindow::ProcessAfterEndRender()
 {
 }
 
-void ImageWindow::TextCentered(std::string text, int BoxSize)
+void ImageWindow::TextCentered(std::string text, int BoxSize, int n)
 {
-    auto windowWidth = BoxSize;
+    auto windowWidth = BoxSize ;
     auto textWidth = ImGui::CalcTextSize(text.c_str()).x;
 
     auto TextPos = (windowWidth - textWidth >= 0) ? windowWidth - textWidth : 0;
 
     auto CurrentPosX = ImGui::GetCursorPosX();
-    ImGui::SetCursorPosX(CurrentPosX + (TextPos) * 0.5f);
+
+    ImGui::SetCursorPosX(windowWidth * n);
+    ImGui::Text("|");
+    ImGui::SameLine();
+    ImGui::SetCursorPosX(windowWidth * n + (TextPos) * 0.5f);
     //ImGui::Text(text.c_str());
 }
 
 void ImageWindow::RenderUnicode(std::string str)
 {
-    if (str == "Unknown") { ImGui::Text((const char*)u8"Unknown"); }
+    if (str == "Uk") { ImGui::Text((const char*)u8"Uk"); }
     else if (str == "1")  { ImGui::Text((const char*)u8"1"); }
     else if (str == "2")  { ImGui::Text((const char*)u8"2"); }
     else if (str == "3")  { ImGui::Text((const char*)u8"3"); }

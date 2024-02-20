@@ -23,12 +23,12 @@ mAPUiRenderer::mAPUiRenderer()
     WndObserver = WindowObserver::Instance();
     InitCategory();
 
-    Windows.insert(std::pair(MAINIMAGEWINDOW, new ImageWindow(string("Image"), string("Image"), ImVec2(100, 0), ImVec2(1200, 900), ImVec4(.8f, 0.2f, 0.2f, .8f))));
-    Windows[MAINBUTTONWINDOW] = new ButtonWindow(string("Button List"), string("Image"), ImVec2(0, 0), ImVec2(100, 900));
+    Windows.insert(std::pair(MAINIMAGEWINDOW, new ImageWindow(string("Image"), string("Graph"), ImVec2(100, 0), ImVec2(1200, 900), ImVec4(.8f, 0.2f, 0.2f, .8f))));
+    Windows[MAINBUTTONWINDOW] = new ButtonWindow(string("Button List"), string("Buttons"), ImVec2(0, 0), ImVec2(100, 900));
     //TODO: 크기가 15 넘어감 왜?
-    Windows[MAINIMAGELISTWINDOW] = new ImageListWindow(string("Image List"), string("Image"), ImVec2(1300, 0), ImVec2(285, 250));
-    Windows[MAINATTRIBUTEWINDOW] = new AttributeWindow(string("Attribute"), string("Image"), ImVec2(1300, 250), ImVec2(300, 250));
-    Windows[MAINCATEGORYWINDOW] = new CategoriesWindow(string("Category"), string("Class/AP"), ImVec2(1300, 500), ImVec2(300, 400));
+    Windows[MAINIMAGELISTWINDOW] = new ImageListWindow(string("Image List"), string("Select AP"), ImVec2(1300, 0), ImVec2(285, 250));
+    Windows[MAINATTRIBUTEWINDOW] = new AttributeWindow(string("Attribute"), string("mAP / IOU"), ImVec2(1300, 250), ImVec2(285, 250));
+    Windows[MAINCATEGORYWINDOW] = new CategoriesWindow(string("Category"), string("Class"), ImVec2(1300, 500), ImVec2(285, 400));
 
     for (auto& w : Windows)
     {
@@ -286,6 +286,13 @@ void mAPUiRenderer::ProcessNotify()
             break;
         case EventEnum::SET_CURRENT_SELECT:
             Windows[e.Serial]->SetSelectIndex(*(int*)e.mess);
+            break;
+        case EventEnum::SET_IOU:
+        {
+            AttributeWindow* ATWd = static_cast<AttributeWindow*>(Windows[e.Serial]);
+            string iou((char*)e.mess);
+            ATWd->SetIOU(iou);
+        }
             break;
         default:
             break;

@@ -12,7 +12,7 @@ public:
 
 	void RenderUnicode(std::string str);
 	
-	void TextCentered(std::string text, int BoxSize);
+	void TextCentered(std::string text, int BoxSize, int n);
 
 protected:
 	std::vector<float> APArray;
