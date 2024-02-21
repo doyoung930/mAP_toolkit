@@ -137,6 +137,12 @@
   <ItemGroup>
     <ClCompile Include="..\backends\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\backends\imgui_impl_win32.cpp" />
+    <ClCompile Include="AttributeWindow.cpp" />
+    <ClCompile Include="ButtonWindow.cpp" />
+    <ClCompile Include="CategoriesWindow.cpp" />
+    <ClCompile Include="GlobalVariable.cpp" />
+    <ClCompile Include="ImageListWindow.cpp" />
+    <ClCompile Include="ImageWindow.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
@@ -144,16 +150,25 @@
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mAP_calculation\MapCalculation.cpp" />
+    <ClCompile Include="Observer.cpp" />
     <ClCompile Include="renderer\mAPUiRenderer.cpp" />
     <ClCompile Include="renderer\Renderer.cpp" />
     <ClCompile Include="tool\Tool.cpp" />
     <ClCompile Include="Window.cpp" />
+    <ClCompile Include="WindowObserver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\backends\imgui_impl_opengl3.h" />
     <ClInclude Include="..\backends\imgui_impl_win32.h" />
     <ClInclude Include="define.h" />
+    <ClInclude Include="AttributeWindow.h" />
+    <ClInclude Include="ButtonWindow.h" />
+    <ClInclude Include="CategoriesWindow.h" />
+    <ClInclude Include="Event.h" />
+    <ClInclude Include="GlobalVariable.h" />
     <ClInclude Include="header.h" />
+    <ClInclude Include="ImageListWindow.h" />
+    <ClInclude Include="ImageWindow.h" />
     <ClInclude Include="ImguiDefine.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
@@ -163,10 +178,12 @@
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="imgui\stb_image.h" />
     <ClInclude Include="mAP_calculation\MapCalculation.h" />
+    <ClInclude Include="Observer.h" />
     <ClInclude Include="renderer\mAPUiRenderer.h" />
     <ClInclude Include="renderer\Renderer.h" />
     <ClInclude Include="tool\Tool.h" />
     <ClInclude Include="Window.h" />
+    <ClInclude Include="WindowObserver.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

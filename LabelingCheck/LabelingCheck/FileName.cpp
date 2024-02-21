@@ -8,6 +8,34 @@ std::map<int, std::string> CharMap;
 
 namespace fs = std::filesystem;
 
+std::string ToString(std::wstring value)
+{
+    std::string temp;
+    temp.assign(value.begin(), value.end());
+    return temp;
+}
+
+#include <shlobj.h>
+std::string GetFileDirectory()
+{
+    TCHAR folderPath[MAX_PATH] = L"";
+
+    BROWSEINFO bi = { 0 };
+    bi.lpszTitle = L"폴더 선택";
+    bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_NEWDIALOGSTYLE;
+
+    LPITEMIDLIST pidl = SHBrowseForFolder(&bi);
+    if (pidl != NULL)
+    {
+        SHGetPathFromIDList(pidl, folderPath);
+        CoTaskMemFree(pidl);
+
+        return ToString(folderPath);
+    }
+
+    return std::string("");
+}
+
 std::string GetIntToStr(std::string str)
 {
     return CharMap[std::stoi(str)];
@@ -164,15 +192,17 @@ void Init()
 int main() {
     Init();
 
-    std::string directoryPath;// = "C:\\Users\\user\\Desktop\\LPR vat\\aihub_lpr";
-    std::cout << "Enter Your Directory Path: ";
-    std::getline(std::cin, directoryPath);
+    //std::cout << "Enter Your Directory Path: ";
+    //std::getline(std::cin, directoryPath);
 
     //size_t found = directoryPath.find("\\");
     //while (found != std::string::npos) {
     //    directoryPath.replace(found, 1, "\\\\");
     //    found = directoryPath.find("\\", found + 2);  // 다음 검색 위치 설정
     //}
+
+    std::string directoryPath = GetFileDirectory();// = "C:\\Users\\user\\Desktop\\LPR vat\\aihub_lpr";
+    std::cout << "Select Directory: " << directoryPath << std::endl;
 
     readAndCompareTxtFiles(directoryPath);
 

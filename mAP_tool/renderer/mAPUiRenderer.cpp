@@ -3,6 +3,14 @@
 #include "mAPUiRenderer.h"
 #include "Window.h"
 
+#include "ImageWindow.h"
+#include "ButtonWindow.h"
+#include "ImageListWindow.h"
+#include "AttributeWindow.h"
+#include "CategoriesWindow.h"
+
+#include "WindowObserver.h"
+
 HGLRC          mAPUiRenderer::g_hRC;
 WGL_WindowData mAPUiRenderer::g_MainWindow;
 int            mAPUiRenderer::g_Width;
@@ -12,11 +20,28 @@ using std::string;
 
 mAPUiRenderer::mAPUiRenderer()
 {
-    Windows.emplace_back(new ImageWindow(string("Image"), string("Image"), ImVec2(100, 0), ImVec2(1200, 900)));
-    Windows.emplace_back(new ButtonWindow(string("Button List"), string("Image"), ImVec2(0, 0), ImVec2(100, 900)));
-    Windows.emplace_back(new ImageListWindow(string("Image List"), string("Image"), ImVec2(1300, 0), ImVec2(300, 250)));
-    Windows.emplace_back(new AttributeWindow(string("Attribute"), string("Image"), ImVec2(1300, 250), ImVec2(300, 250)));
-    Windows.emplace_back(new CategoriesWindow(string("Category"), string("Image"), ImVec2(1300, 500), ImVec2(300, 400)));
+    WndObserver = WindowObserver::Instance();
+
+    Windows.insert(std::pair(MAINIMAGEWINDOW, new ImageWindow(string("Image"), string("Graph"), ImVec2(100, 0), ImVec2(1200, 900), ImVec4(.8f, 0.2f, 0.2f, .8f))));
+    Windows[MAINBUTTONWINDOW] = new ButtonWindow(string("Button List"), string("Buttons"), ImVec2(0, 0), ImVec2(100, 900));
+    //TODO: 크기가 15 넘어감 왜?
+    Windows[MAINIMAGELISTWINDOW] = new ImageListWindow(string("Image List"), string("Select AP"), ImVec2(1300, 0), ImVec2(285, 250));
+    Windows[MAINATTRIBUTEWINDOW] = new AttributeWindow(string("Attribute"), string("mAP / IOU"), ImVec2(1300, 250), ImVec2(285, 250));
+    Windows[MAINCATEGORYWINDOW] = new CategoriesWindow(string("Category"), string("Class"), ImVec2(1300, 500), ImVec2(285, 400));
+
+    for (auto& w : Windows)
+    {
+        w.second->SetObserver(WndObserver);
+    }
+
+}
+
+mAPUiRenderer::~mAPUiRenderer()
+{
+    for (auto& w : Windows)
+    {
+        delete w.second;
+    }
 }
 
 void mAPUiRenderer::render()
@@ -70,7 +95,7 @@ int mAPUiRenderer::Main()
     // - Read 'docs/FONTS.md' for more instructions and details.
     // - Remember that in C/C++ if you want to include a backslash \ in a string literal you need to write a double backslash \\ !
     //io.Fonts->AddFontDefault();
-    //io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\segoeui.ttf", 18.0f);
+    io.Fonts->AddFontFromFileTTF("Font/HakgyoansimMonggeulmonggeulR.ttf", FONTSIZE, nullptr, io.Fonts->GetGlyphRangesKorean());
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/DroidSans.ttf", 16.0f);
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Roboto-Medium.ttf", 16.0f);
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Cousine-Regular.ttf", 15.0f);
@@ -108,10 +133,14 @@ int mAPUiRenderer::Main()
         // 2.
         for (const auto& w : Windows)
         {
-            w->InitRender();
-            w->Render();
-            w->EndRender();
+            w.second->InitRender();             // Being() Function
+            w.second->Render();                 // Main Render
+            w.second->EndRender();              // End() Function
+            w.second->ProcessAfterEndRender();  // Reset Font or Bg Color
         }
+
+        // Process Event Queue Notify
+        ProcessNotify();
 
         // 3. Show another simple window.
         //if (show_another_window)
@@ -233,4 +262,38 @@ LRESULT __stdcall mAPUiRenderer::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
         return 0;
     }
     return ::DefWindowProcW(hWnd, msg, wParam, lParam);
+}
+
+void mAPUiRenderer::ProcessNotify()
+{
+    std::queue<Event>& ObQueue = WndObserver->GetQueue();
+
+    while (!ObQueue.empty())
+    {
+        Event e = ObQueue.front();
+        ObQueue.pop();
+
+        switch (e.evet)
+        {
+        case EventEnum::SET_DIRECTORY_PATH:
+        {
+            ImageListWindow* ILWd = dynamic_cast<ImageListWindow*>(Windows[e.Serial]);
+            string path((char*)e.mess);
+            ILWd->LoadImageWithPath(path);  //*(std::string*)e.mess
+        }
+            break;
+        case EventEnum::SET_CURRENT_SELECT:
+            Windows[e.Serial]->SetSelectIndex(*(int*)e.mess);
+            break;
+        case EventEnum::SET_IOU:
+        {
+            AttributeWindow* ATWd = static_cast<AttributeWindow*>(Windows[e.Serial]);
+            string iou((char*)e.mess);
+            ATWd->SetIOU(iou);
+        }
+            break;
+        default:
+            break;
+        }
+    }
 }

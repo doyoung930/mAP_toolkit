@@ -1,30 +1,41 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include "ImguiDefine.h"
+
+using std::vector;
+class Window;
+class WindowObserver;
+
+void SetOtherWindowName(Window* other, const char* text);
+void SetFilePath(Window* other, std::string text);
 
 class Window
 {
 public:
 	// TODO: 빌더 디자인 패턴 사용해보자
-	Window(std::string Beginname, std::string Wndname, ImVec2 Wndpos, ImVec2 Wndsize)
-		:	BeginName(Beginname),
-			WndName(Wndname),
-			WndPos(Wndpos),
-			WndSize(Wndsize)
-	{}
+	Window(std::string Beginname, std::string Wndname, ImVec2 Wndpos, ImVec2 Wndsize, ImVec4 BgColor = ImVec4(0.f, 0.f, 0.f, .8f));
 	virtual ~Window() {}
 
 	// 창 생성과 이름 같은 공통적인 작업을 모아둠
 	void InitRender();
 	void EndRender();
+	virtual void ProcessAfterEndRender() {};
 
 	virtual void Render() = 0;
 
 	bool LoadTextureFromFile(const char* filename, GLuint* out_texture, int* out_width, int* out_height);
 	std::string GetFileDirectory();
+	void RenderUnicode(std::string str);
 
 	std::string ToString(std::wstring value);
+	std::wstring ToWString(std::string value);
+
+	void SetObserver(WindowObserver* ob) { Observer = ob; };
+	void SetSelectIndex(int index);
+
+	ImVec2 GetWindowCenter(ImVec2 RenderObjectSize);
 
 protected:
 	std::string BeginName;
@@ -32,62 +43,17 @@ protected:
 
 	ImVec2 WndPos;
 	ImVec2 WndSize;
+	WindowObserver* Observer;
 
-	//friend void SetOtherWindowName(Window* other, const char* text);
+	ImVec4 WndBgColor;
+	ImGuiStyle WndStyle;
+
+	int CurrentSelectIndex;
+	bool DiffCurrentIndex;
+
+	bool ChangedFontSize;
 };
 
-//void SetOtherWindowName(Window* other, const char* text)
-//{
-//	
-//}
 
-class ImageWindow : public Window
-{
-public:
-	ImageWindow(std::string Beginname, std::string Wndname, ImVec2 Wndpos, ImVec2 Wndsize)
-		: Window(Beginname, Wndname, Wndpos, Wndsize)
-	{}
 
-	void Render();
-};
-
-class ButtonWindow : public Window
-{
-public:
-	ButtonWindow(std::string Beginname, std::string Wndname, ImVec2 Wndpos, ImVec2 Wndsize)
-		: Window(Beginname, Wndname, Wndpos, Wndsize)
-	{}
-
-	void Render();
-};
-
-class ImageListWindow : public Window
-{
-public:
-	ImageListWindow(std::string Beginname, std::string Wndname, ImVec2 Wndpos, ImVec2 Wndsize)
-		: Window(Beginname, Wndname, Wndpos, Wndsize)
-	{}
-
-	void Render();
-};
-
-class AttributeWindow : public Window
-{
-public:
-	AttributeWindow(std::string Beginname, std::string Wndname, ImVec2 Wndpos, ImVec2 Wndsize)
-		: Window(Beginname, Wndname, Wndpos, Wndsize)
-	{}
-
-	void Render();
-};
-
-class CategoriesWindow : public Window
-{
-public:
-	CategoriesWindow(std::string Beginname, std::string Wndname, ImVec2 Wndpos, ImVec2 Wndsize)
-		: Window(Beginname, Wndname, Wndpos, Wndsize)
-	{}
-
-	void Render();
-};
 

@@ -1,4 +1,6 @@
 #define STB_IMAGE_IMPLEMENTATION
+#include "header.h"
+
 #include "Window.h"
 #include "imgui/stb_image.h"
 #include <Windows.h>
@@ -9,11 +11,32 @@
 using std::cout;
 using std::endl;
 
+Window::Window(std::string Beginname, std::string Wndname, ImVec2 Wndpos, ImVec2 Wndsize, ImVec4 BgColor)
+    : BeginName(Beginname),
+    WndName(Wndname),
+    WndPos(Wndpos),
+    WndSize(Wndsize),
+    CurrentSelectIndex(-1),
+    ChangedFontSize(false),
+    WndBgColor(BgColor)
+{
+}
+
 void Window::InitRender()
 {
+    ImGuiWindowFlags window_flags = 0;
     bool isOpen = true;
 
-    ImGui::Begin(BeginName.c_str(), &isOpen, ImGuiWindowFlags_NoTitleBar);                          // Create a window called "Hello, world!" and append into it.
+    ImGuiStyle* style = &ImGui::GetStyle();
+    ImVec4* colors = style->Colors;
+
+    colors[ImGuiCol_WindowBg] = WndBgColor;
+
+    window_flags |= ImGuiWindowFlags_NoTitleBar;
+    window_flags |= ImGuiWindowFlags_NoMove;
+    window_flags |= ImGuiWindowFlags_NoResize;
+
+    ImGui::Begin(BeginName.c_str(), &isOpen, window_flags);                          // Create a window called "Hello, world!" and append into it.
     ImGui::SetWindowPos(WndPos);
     ImGui::SetWindowSize(WndSize);
 
@@ -23,6 +46,13 @@ void Window::InitRender()
 void Window::EndRender()
 {
     ImGui::End();
+
+    if (ChangedFontSize)
+    {
+        ImGuiIO& io = ImGui::GetIO(); (void)io;
+        io.Fonts->Fonts[0]->FontSize = FONTSIZE;
+        ChangedFontSize = false;
+    }
 }
 
 bool Window::LoadTextureFromFile(const char* filename, GLuint* out_texture, int* out_width, int* out_height)
@@ -82,31 +112,6 @@ std::string Window::GetFileDirectory()
     }
 
     return std::string("");
-    //OPENFILENAME OFN;
-    //TCHAR filePathName[100] = L"";
-    //TCHAR lpstrFile[100] = L"";
-    //static TCHAR filter[] = L"모든 파일\0*.*\0텍스트 파일\0*.txt\0fbx 파일\0*.fbx";
-
-    //HWND hWnd = GetActiveWindow();
-
-    //memset(&OFN, 0, sizeof(OPENFILENAME));
-    //OFN.lStructSize = sizeof(OPENFILENAME);
-    //OFN.hwndOwner = hWnd;
-    //OFN.lpstrFilter = filter;
-    //OFN.lpstrFile = lpstrFile;
-    //OFN.nMaxFile = 100;
-    //OFN.lpstrInitialDir = L".";
-
-    //if (GetOpenFileName(&OFN) != 0)
-    //{
-    //    wsprintf(filePathName, L"%s 파일을 열겠습니까?", OFN.lpstrFile);
-    //    MessageBox(hWnd, filePathName, L"열기 선택", MB_OK);
-
-    //    std::string t = ToString(OFN.lpstrFile);
-
-    //    return t;
-    //}
-    //return std::string("");
 }
 
 std::string Window::ToString(std::wstring value)
@@ -116,60 +121,108 @@ std::string Window::ToString(std::wstring value)
     return temp;
 }
 
-void ImageWindow::Render()
+std::wstring Window::ToWString(std::string value)
 {
-    //int my_image_width = 0;
-    //int my_image_height = 0;
-    //GLuint my_image_texture = 0;
-    //bool ret = LoadTextureFromFile("C:\\Users\\user\\Desktop\\LPR vat\\aihub_lpr\\경기37바1383.jpg",
-    //                                    &my_image_texture, &my_image_width, &my_image_height);
-    //IM_ASSERT(ret);
-
-    //ImGui::Image((void*)(intptr_t)my_image_texture, ImVec2(my_image_width, my_image_height));
+    std::wstring temp;
+    temp.assign(value.begin(), value.end());
+    return temp;
 }
 
-void ButtonWindow::Render()
+void Window::SetSelectIndex(int index)
 {
-    if (ImGui::Button("Directory"))
+    if (index == CurrentSelectIndex)
     {
-        cout << "AAA" << endl;
-
-        std::string FileDirectory;
-        FileDirectory = GetFileDirectory();
-        if (FileDirectory != "")
-        {
-
-        }
-
-        // 디렉토리path에 있는 모든 파일 검사
-        //for (const auto& file : directory_iterator(path)) cout << file.path() << endl;
+        DiffCurrentIndex = false;
+    }
+    else
+    {
+        DiffCurrentIndex = true;
+        CurrentSelectIndex = index;
     }
 }
 
-void ImageListWindow::Render()
+ImVec2 Window::GetWindowCenter(ImVec2 RenderObjectSize)
 {
-    static int current_part_idx{ 0 };
-    if(ImGui::BeginListBox("Draw List", ImVec2(300, 900)))
-    {
-        const char* items[] = { "AAAA",    "BBBB", "CCCC", "DDDD",  "EEEE", "FFFF",  "GGGG",  "HHHH", "IIII",   "JJJJ", "KKKK",
-                                   "LLLLLLL", "MMMM", "NNNN", "OOOOO", "PPP",  "QQQQQ", "RRRRR", "SSSS", "TTTTTT", "UUU" };
-        
-        for (int n = 0; n < IM_ARRAYSIZE(items); ++n)
-        {
-            const bool is_selected = (current_part_idx == n);
-            if (ImGui::Selectable(items[n], is_selected)) { current_part_idx = n; }
-
-            // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
-            if (is_selected) { ImGui::SetItemDefaultFocus(); }
-        }
-    }
-    ImGui::EndListBox();
+    ImVec2 ReturnValue;
+    ReturnValue.x = (WndSize.x - RenderObjectSize.x) / 2;
+    ReturnValue.y = (WndSize.y - RenderObjectSize.y) / 2;
+    return ReturnValue;
 }
 
-void AttributeWindow::Render()
-{
-}
 
-void CategoriesWindow::Render()
+void Window::RenderUnicode(std::string str)
 {
+    if (str == "Uk") { ImGui::Text((const char*)u8"Uk"); }
+    else if (str == "1") { ImGui::Text((const char*)u8"1"); }
+    else if (str == "2") { ImGui::Text((const char*)u8"2"); }
+    else if (str == "3") { ImGui::Text((const char*)u8"3"); }
+    else if (str == "4") { ImGui::Text((const char*)u8"4"); }
+    else if (str == "5") { ImGui::Text((const char*)u8"5"); }
+    else if (str == "6") { ImGui::Text((const char*)u8"6"); }
+    else if (str == "7") { ImGui::Text((const char*)u8"7"); }
+    else if (str == "8") { ImGui::Text((const char*)u8"8"); }
+    else if (str == "9") { ImGui::Text((const char*)u8"9"); }
+    else if (str == "0") { ImGui::Text((const char*)u8"0"); }
+    else if (str == "가") { ImGui::Text((const char*)u8"가"); }
+    else if (str == "나") { ImGui::Text((const char*)u8"나"); }
+    else if (str == "다") { ImGui::Text((const char*)u8"다"); }
+    else if (str == "라") { ImGui::Text((const char*)u8"라"); }
+    else if (str == "마") { ImGui::Text((const char*)u8"마"); }
+    else if (str == "바") { ImGui::Text((const char*)u8"바"); }
+    else if (str == "사") { ImGui::Text((const char*)u8"사"); }
+    else if (str == "아") { ImGui::Text((const char*)u8"아"); }
+    else if (str == "자") { ImGui::Text((const char*)u8"자"); }
+    else if (str == "거") { ImGui::Text((const char*)u8"거"); }
+    else if (str == "너") { ImGui::Text((const char*)u8"너"); }
+    else if (str == "더") { ImGui::Text((const char*)u8"더"); }
+    else if (str == "러") { ImGui::Text((const char*)u8"러"); }
+    else if (str == "머") { ImGui::Text((const char*)u8"머"); }
+    else if (str == "버") { ImGui::Text((const char*)u8"버"); }
+    else if (str == "서") { ImGui::Text((const char*)u8"서"); }
+    else if (str == "어") { ImGui::Text((const char*)u8"어"); }
+    else if (str == "저") { ImGui::Text((const char*)u8"저"); }
+    else if (str == "고") { ImGui::Text((const char*)u8"고"); }
+    else if (str == "노") { ImGui::Text((const char*)u8"노"); }
+    else if (str == "도") { ImGui::Text((const char*)u8"도"); }
+    else if (str == "로") { ImGui::Text((const char*)u8"로"); }
+    else if (str == "모") { ImGui::Text((const char*)u8"모"); }
+    else if (str == "보") { ImGui::Text((const char*)u8"보"); }
+    else if (str == "소") { ImGui::Text((const char*)u8"소"); }
+    else if (str == "오") { ImGui::Text((const char*)u8"오"); }
+    else if (str == "조") { ImGui::Text((const char*)u8"조"); }
+    else if (str == "구") { ImGui::Text((const char*)u8"구"); }
+    else if (str == "누") { ImGui::Text((const char*)u8"누"); }
+    else if (str == "두") { ImGui::Text((const char*)u8"두"); }
+    else if (str == "루") { ImGui::Text((const char*)u8"루"); }
+    else if (str == "무") { ImGui::Text((const char*)u8"무"); }
+    else if (str == "부") { ImGui::Text((const char*)u8"부"); }
+    else if (str == "수") { ImGui::Text((const char*)u8"수"); }
+    else if (str == "우") { ImGui::Text((const char*)u8"우"); }
+    else if (str == "주") { ImGui::Text((const char*)u8"주"); }
+    else if (str == "허") { ImGui::Text((const char*)u8"허"); }
+    else if (str == "하") { ImGui::Text((const char*)u8"하"); }
+    else if (str == "호") { ImGui::Text((const char*)u8"호"); }
+    else if (str == "배") { ImGui::Text((const char*)u8"배"); }
+    else if (str == "공") { ImGui::Text((const char*)u8"공"); }
+    else if (str == "해") { ImGui::Text((const char*)u8"해"); }
+    else if (str == "육") { ImGui::Text((const char*)u8"육"); }
+    else if (str == "합") { ImGui::Text((const char*)u8"합"); }
+    else if (str == "국") { ImGui::Text((const char*)u8"국"); }
+    else if (str == "울") { ImGui::Text((const char*)u8"울"); }
+    else if (str == "경") { ImGui::Text((const char*)u8"경"); }
+    else if (str == "기") { ImGui::Text((const char*)u8"기"); }
+    else if (str == "강") { ImGui::Text((const char*)u8"강"); }
+    else if (str == "원") { ImGui::Text((const char*)u8"원"); }
+    else if (str == "북") { ImGui::Text((const char*)u8"북"); }
+    else if (str == "대") { ImGui::Text((const char*)u8"대"); }
+    else if (str == "남") { ImGui::Text((const char*)u8"남"); }
+    else if (str == "전") { ImGui::Text((const char*)u8"전"); }
+    else if (str == "산") { ImGui::Text((const char*)u8"산"); }
+    else if (str == "제") { ImGui::Text((const char*)u8"제"); }
+    else if (str == "영") { ImGui::Text((const char*)u8"영"); }
+    else if (str == "충") { ImGui::Text((const char*)u8"충"); }
+    else if (str == "인") { ImGui::Text((const char*)u8"인"); }
+    else if (str == "천") { ImGui::Text((const char*)u8"천"); }
+    else if (str == "세") { ImGui::Text((const char*)u8"세"); }
+    else if (str == "종") { ImGui::Text((const char*)u8"종"); }
 }
