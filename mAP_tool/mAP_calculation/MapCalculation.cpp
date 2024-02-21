@@ -111,3 +111,63 @@ float MapCalculation::calculateMAP() {
     }
     return total_ap / aps.size(); 
 }
+
+void MapCalculation::Truth_GetData(string directory_path){
+
+    // 특정 디렉토리에 있는 모든 .txt 파일 탐색
+    for (const auto& entry : std::filesystem::directory_iterator(directory_path)) {
+        if (entry.path().extension() == ".txt") {
+            std::ifstream file(entry.path());
+            if (!file.is_open()) {
+                std::cerr << "Failed to open file: " << entry.path().string() << std::endl;
+                continue;
+            }
+
+            // 파일 내용 읽어서 _true_bboxes에 저장
+            std::string line;
+            while (std::getline(file, line)) {
+                std::istringstream iss(line);
+                int id;
+                double x, y, w, h;
+                if (!(iss >> id >> x >> y >> w >> h)) {
+                    std::cerr << "Invalid input: " << line << std::endl;
+                    continue;
+                }
+                _true_bboxes.emplace_back(id, x, y, w, h);
+            }
+
+            // 파일 닫기
+            file.close();
+        }
+    }
+}
+
+void MapCalculation::Predicted_GetData(string directory_path) {
+
+    // 특정 디렉토리에 있는 모든 .txt 파일 탐색
+    for (const auto& entry : std::filesystem::directory_iterator(directory_path)) {
+        if (entry.path().extension() == ".txt") {
+            std::ifstream file(entry.path());
+            if (!file.is_open()) {
+                std::cerr << "Failed to open file: " << entry.path().string() << std::endl;
+                continue;
+            }
+
+            // 파일 내용 읽어서 _true_bboxes에 저장
+            std::string line;
+            while (std::getline(file, line)) {
+                std::istringstream iss(line);
+                int id;
+                double x, y, w, h;
+                if (!(iss >> id >> x >> y >> w >> h)) {
+                    std::cerr << "Invalid input: " << line << std::endl;
+                    continue;
+                }
+                _true_bboxes.emplace_back(id, x, y, w, h);
+            }
+
+            // 파일 닫기
+            file.close();
+        }
+    }
+}
