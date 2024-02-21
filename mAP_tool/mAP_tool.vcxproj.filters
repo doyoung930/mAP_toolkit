@@ -99,6 +99,9 @@
     <ClCompile Include="Observer.cpp">
       <Filter>소스 파일\renderer\WindowObserver</Filter>
     </ClCompile>
+    <ClCompile Include="GlobalVariable.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header.h">
@@ -175,6 +178,9 @@
     </ClInclude>
     <ClInclude Include="Observer.h">
       <Filter>소스 파일\renderer\WindowObserver</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalVariable.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

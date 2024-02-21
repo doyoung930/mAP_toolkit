@@ -140,6 +140,7 @@
     <ClCompile Include="AttributeWindow.cpp" />
     <ClCompile Include="ButtonWindow.cpp" />
     <ClCompile Include="CategoriesWindow.cpp" />
+    <ClCompile Include="GlobalVariable.cpp" />
     <ClCompile Include="ImageListWindow.cpp" />
     <ClCompile Include="ImageWindow.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="ButtonWindow.h" />
     <ClInclude Include="CategoriesWindow.h" />
     <ClInclude Include="Event.h" />
+    <ClInclude Include="GlobalVariable.h" />
     <ClInclude Include="header.h" />
     <ClInclude Include="ImageListWindow.h" />
     <ClInclude Include="ImageWindow.h" />

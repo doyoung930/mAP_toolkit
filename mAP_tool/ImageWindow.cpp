@@ -1,18 +1,12 @@
 #include "ImageWindow.h"
+#include "GlobalVariable.h"
 
 #include <random>
 
 ImageWindow::ImageWindow(std::string Beginname, std::string Wndname, ImVec2 Wndpos, ImVec2 Wndsize, ImVec4 BgColor)
     : Window(Beginname, Wndname, Wndpos, Wndsize, BgColor)
 {
-    std::uniform_real_distribution<float> uid(0.f, 1.f);
-    std::random_device rd;
 
-    APArray.reserve(75);
-    for (int i = 0; i < 75; i++)
-    {
-        APArray.push_back(uid(rd));
-    }
 }
 
 void ImageWindow::Render()
@@ -35,13 +29,17 @@ void ImageWindow::Render()
     // 최댓값을 기준으로 역정규화 하기
     int CanUseHeight = child_height - (ImGui::GetTextLineHeight() + style.ScrollbarSize + style.WindowPadding.y * 2.0f);
     
+    std::vector<float>& APArray = GlobalVariable::Instance()->GetApArray();
+    std::vector<std::string>& CateArray = GlobalVariable::Instance()->GetCateArray();
 
-    // 
     //ImGui::PushStyleVar(ImGuiStyleVar_ButtonTextAlign, ImVec2(0, 0));
-    for (int item = 0; item < CateArray->size(); item++)
+    for (int item = 0; item < CateArray.size(); item++)
     {
         if (item > 0)
             ImGui::SameLine();
+
+        int ApPercent = APArray[item] * 100;
+        std::string ApPercentStr = std::to_string(ApPercent) + "%";
 
         char ApStr[10];
         sprintf_s(ApStr, "%f", APArray[item]);
@@ -54,7 +52,7 @@ void ImageWindow::Render()
 
         ImGui::SetCursorPosY(CanUseHeight - (CanUseHeight * APArray[item]));
 
-        ImGui::Button(ApStr, ImVec2(40.0f, CanUseHeight * APArray[item]));
+        ImGui::Button(ApPercentStr.c_str(), ImVec2(40.0f, CanUseHeight * APArray[item]));
         ImGui::PopStyleColor(3);
     }
     //ImGui::PopStyleVar();
@@ -62,7 +60,7 @@ void ImageWindow::Render()
     if (child_is_visible) // Avoid calling SetScrollHereY when running with culled items
     {
         ImGui::SetCursorPosY(child_height - (ImGui::GetTextLineHeight() + style.ScrollbarSize + style.WindowPadding.y * 2.0f));
-        for (int item = 0; item < CateArray->size(); item++)
+        for (int item = 0; item < CateArray.size(); item++)
         {
             if (item > 0)
                 ImGui::SameLine();
@@ -71,9 +69,12 @@ void ImageWindow::Render()
             if (item == 0)
                 PrintText = "Uk";
             else
-                PrintText = (*CateArray)[item];
+                PrintText = (CateArray)[item];
             TextCentered(PrintText, 40 + 8, item);
             RenderUnicode(PrintText);
+
+            ImGui::SameLine();
+            ImGui::Text("\t");
         }
     }
 
@@ -103,85 +104,4 @@ void ImageWindow::TextCentered(std::string text, int BoxSize, int n)
     ImGui::SameLine();
     ImGui::SetCursorPosX(windowWidth * n + (TextPos) * 0.5f);
     //ImGui::Text(text.c_str());
-}
-
-void ImageWindow::RenderUnicode(std::string str)
-{
-    if (str == "Uk") { ImGui::Text((const char*)u8"Uk"); }
-    else if (str == "1")  { ImGui::Text((const char*)u8"1"); }
-    else if (str == "2")  { ImGui::Text((const char*)u8"2"); }
-    else if (str == "3")  { ImGui::Text((const char*)u8"3"); }
-    else if (str == "4")  { ImGui::Text((const char*)u8"4"); }
-    else if (str == "5")  { ImGui::Text((const char*)u8"5"); }
-    else if (str == "6")  { ImGui::Text((const char*)u8"6"); }
-    else if (str == "7")  { ImGui::Text((const char*)u8"7"); }
-    else if (str == "8")  { ImGui::Text((const char*)u8"8"); }
-    else if (str == "9")  { ImGui::Text((const char*)u8"9"); }
-    else if (str == "0")  { ImGui::Text((const char*)u8"0"); }
-    else if (str == "가") { ImGui::Text((const char*)u8"가");  }
-    else if (str == "나") { ImGui::Text((const char*)u8"나");  }
-    else if (str == "다") { ImGui::Text((const char*)u8"다");  }
-    else if (str == "라") { ImGui::Text((const char*)u8"라");  }
-    else if (str == "마") { ImGui::Text((const char*)u8"마");  }
-    else if (str == "바") { ImGui::Text((const char*)u8"바");  }
-    else if (str == "사") { ImGui::Text((const char*)u8"사");  }
-    else if (str == "아") { ImGui::Text((const char*)u8"아");  }
-    else if (str == "자") { ImGui::Text((const char*)u8"자");  }
-    else if (str == "거") { ImGui::Text((const char*)u8"거");  }
-    else if (str == "너") { ImGui::Text((const char*)u8"너");  }
-    else if (str == "더") { ImGui::Text((const char*)u8"더");  }
-    else if (str == "러") { ImGui::Text((const char*)u8"러");  }
-    else if (str == "머") { ImGui::Text((const char*)u8"머");  }
-    else if (str == "버") { ImGui::Text((const char*)u8"버");  }
-    else if (str == "서") { ImGui::Text((const char*)u8"서");  }
-    else if (str == "어") { ImGui::Text((const char*)u8"어");  }
-    else if (str == "저") { ImGui::Text((const char*)u8"저");  }
-    else if (str == "고") { ImGui::Text((const char*)u8"고");  }
-    else if (str == "노") { ImGui::Text((const char*)u8"노");  }
-    else if (str == "도") { ImGui::Text((const char*)u8"도");  }
-    else if (str == "로") { ImGui::Text((const char*)u8"로");  }
-    else if (str == "모") { ImGui::Text((const char*)u8"모");  }
-    else if (str == "보") { ImGui::Text((const char*)u8"보");  }
-    else if (str == "소") { ImGui::Text((const char*)u8"소");  }
-    else if (str == "오") { ImGui::Text((const char*)u8"오");  }
-    else if (str == "조") { ImGui::Text((const char*)u8"조");  }
-    else if (str == "구") { ImGui::Text((const char*)u8"구");  }
-    else if (str == "누") { ImGui::Text((const char*)u8"누");  }
-    else if (str == "두") { ImGui::Text((const char*)u8"두");  }
-    else if (str == "루") { ImGui::Text((const char*)u8"루");  }
-    else if (str == "무") { ImGui::Text((const char*)u8"무");  }
-    else if (str == "부") { ImGui::Text((const char*)u8"부");  }
-    else if (str == "수") { ImGui::Text((const char*)u8"수");  }
-    else if (str == "우") { ImGui::Text((const char*)u8"우");  }
-    else if (str == "주") { ImGui::Text((const char*)u8"주");  }
-    else if (str == "허") { ImGui::Text((const char*)u8"허");  }
-    else if (str == "하") { ImGui::Text((const char*)u8"하");  }
-    else if (str == "호") { ImGui::Text((const char*)u8"호");  }
-    else if (str == "배") { ImGui::Text((const char*)u8"배");  }
-    else if (str == "공") { ImGui::Text((const char*)u8"공");  }
-    else if (str == "해") { ImGui::Text((const char*)u8"해");  }
-    else if (str == "육") { ImGui::Text((const char*)u8"육");  }
-    else if (str == "합") { ImGui::Text((const char*)u8"합");  }
-    else if (str == "국") { ImGui::Text((const char*)u8"국");  }
-    else if (str == "울") { ImGui::Text((const char*)u8"울");  }
-    else if (str == "경") { ImGui::Text((const char*)u8"경");  }
-    else if (str == "기") { ImGui::Text((const char*)u8"기");  }
-    else if (str == "강") { ImGui::Text((const char*)u8"강");  }
-    else if (str == "원") { ImGui::Text((const char*)u8"원");  }
-    else if (str == "북") { ImGui::Text((const char*)u8"북");  }
-    else if (str == "대") { ImGui::Text((const char*)u8"대");  }
-    else if (str == "남") { ImGui::Text((const char*)u8"남");  }
-    else if (str == "전") { ImGui::Text((const char*)u8"전");  }
-    else if (str == "산") { ImGui::Text((const char*)u8"산");  }
-    else if (str == "제") { ImGui::Text((const char*)u8"제");  }
-    else if (str == "영") { ImGui::Text((const char*)u8"영");  }
-    else if (str == "충") { ImGui::Text((const char*)u8"충");  }
-    else if (str == "인") { ImGui::Text((const char*)u8"인");  }
-    else if (str == "천") { ImGui::Text((const char*)u8"천");  }
-    else if (str == "세") { ImGui::Text((const char*)u8"세");  }
-    else if (str == "종") { ImGui::Text((const char*)u8"종");  }
-
-
-    ImGui::SameLine();
-    ImGui::Text("\t");
 }

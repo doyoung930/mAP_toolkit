@@ -15,6 +15,14 @@ ButtonWindow::ButtonWindow(std::string Beginname, std::string Wndname, ImVec2 Wn
 
 void ButtonWindow::Render()
 {
+    static bool IsFirst = true;
+    if (IsFirst)
+    {
+        Observer->OnNotify(MAINATTRIBUTEWINDOW, EventEnum::SET_IOU, &items[0][0]);
+        IsFirst = false;
+    }
+
+
     ImGuiStyle& style = ImGui::GetStyle();
 
     if (ImGui::Button("Directory"))

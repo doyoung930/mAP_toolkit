@@ -1,5 +1,6 @@
 #define _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS
 #include "ImageListWindow.h"
+#include "GlobalVariable.h"
 
 // string º¯È¯
 #include <codecvt>
@@ -11,7 +12,7 @@ void ImageListWindow::Render()
 {
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     auto NowFont = io.Fonts->Fonts[0];
-    NowFont->FontSize = 8.f;
+    NowFont->FontSize = 10.f;
     ChangedFontSize = true;
     if (CurrentSelectIndex != -1)
     {
@@ -19,13 +20,18 @@ void ImageListWindow::Render()
         {
             SetRenderText();
         }
-    }
+        std::vector<float>& APArray = GlobalVariable::Instance()->GetApArray();
+        std::string str = std::to_string(APArray[CurrentSelectIndex] * 100) + "%";
 
-    //ImGui::SetWindowFontScale(1.2f);ImGui::CalcTextSize(IndexStr.c_str())
-    auto CenterPos = GetWindowCenter(NowFont->CalcTextSizeA(NowFont->FontSize, FLT_MAX, 0.0f, (char*)IndexStr.c_str()));
-    ImGui::SetCursorPosX(CenterPos.x);
-    ImGui::SetCursorPosY(CenterPos.y);
-    ImGui::Text((char*)IndexStr.c_str(), 25);
+        //ImGui::SetWindowFontScale(1.2f);ImGui::CalcTextSize(IndexStr.c_str())
+        auto CenterPos = GetWindowCenter(NowFont->CalcTextSizeA(NowFont->FontSize, FLT_MAX, 0.0f, (char*)str.c_str()));
+        ImGui::SetCursorPosX(CenterPos.x - 50);
+        ImGui::SetCursorPosY(CenterPos.y);
+
+        ImGui::Text(str.c_str());
+        //RenderUnicode(str.c_str());
+    }
+    //ImGui::Text((char*)IndexStr.c_str(), 25);
 
 
     //io.Fonts->Fonts[0]->FontSize = 18.f;
@@ -68,5 +74,6 @@ void ImageListWindow::LoadImageWithPath(std::string path)
 
 void ImageListWindow::SetRenderText()
 {
-    IndexStr = ToWString((*CateArray)[CurrentSelectIndex]);
+    std::vector<std::string>& CateArray = GlobalVariable::Instance()->GetCateArray();
+    IndexStr = ToWString((CateArray)[CurrentSelectIndex]);
 }

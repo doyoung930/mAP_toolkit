@@ -27,13 +27,13 @@ public:
 
 	bool LoadTextureFromFile(const char* filename, GLuint* out_texture, int* out_width, int* out_height);
 	std::string GetFileDirectory();
+	void RenderUnicode(std::string str);
 
 	std::string ToString(std::wstring value);
 	std::wstring ToWString(std::string value);
 
 	void SetObserver(WindowObserver* ob) { Observer = ob; };
 	void SetSelectIndex(int index);
-	void SetCateArray(std::vector<std::string>* CateArray) { this->CateArray = CateArray; }
 
 	ImVec2 GetWindowCenter(ImVec2 RenderObjectSize);
 
@@ -52,9 +52,6 @@ protected:
 	bool DiffCurrentIndex;
 
 	bool ChangedFontSize;
-
-	std::vector<std::string>* CateArray;
-
 };
 
 

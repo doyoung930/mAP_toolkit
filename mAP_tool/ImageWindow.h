@@ -9,11 +9,7 @@ public:
 	void Render();
 
 	virtual void ProcessAfterEndRender();
-
-	void RenderUnicode(std::string str);
 	
 	void TextCentered(std::string text, int BoxSize, int n);
 
-protected:
-	std::vector<float> APArray;
 };
