@@ -11,7 +11,4 @@
 *.lastbuildstate
 *.suo
 *.db
-/inference
-mAP_test/.vs/mAP_test/v17/Browse.VC.db-shm
-mAP_test/.vs/mAP_test/v17/Browse.VC.db-wal
-mAP_test/.vs/mAP_test/v17/Browse.VC.opendb
+mAP_tool/inference/
