@@ -43,6 +43,9 @@ void Inference::initialize() {
 }
 
 void Inference::processFrame() {
+    IDL::set_input_image(video_ins, 0, image.rows, image.cols, 3, image.data);
+    //cv::imshow("result", image);
+    //cv::waitKey(1000);
     IDL::forward(model);
     int count = IDL::get_decoder_data_count(model);
     IDL::reset_decoder_iterator(model);
@@ -75,9 +78,13 @@ void Inference::run(std::string directory_path) {
 
                     std::string a = directory_path + "\\" + filename;
 
-                    image = cv::imread(directory_path + "\\" + filename);
-                    bool is_open = image.empty();
+                    cv::Mat image_temp = cv::imread(directory_path + "\\" + filename);
+                    bool is_open = image_temp.empty();
                     if (!is_open) {
+                        //IDL::set_input_image(video_ins, 0, image.rows, image.cols, 3, image.data);
+                        IDL::set_input_image(video_ins, 0, image_temp.rows, image_temp.cols, 3, image_temp.data);
+                        IDL::forward(model);
+                        int count = IDL::get_decoder_data_count(model);
                         processFrame();
                     }
 
