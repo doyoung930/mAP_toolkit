@@ -2,6 +2,8 @@
 
 #include "ButtonWindow.h"
 #include "WindowObserver.h"
+#include "GlobalVariable.h"
+#include "inference/Inference.h"
 
 #include <iostream>
 using std::cout;
@@ -34,6 +36,9 @@ void ButtonWindow::Render()
         {
             //SetFilePath()
             Observer->OnNotify(MAINIMAGELISTWINDOW, EventEnum::SET_DIRECTORY_PATH, &FilePath[0]);
+
+            auto instance = GlobalVariable::Instance();
+            instance->GetInference()->run(FilePath);
         }
 
     }

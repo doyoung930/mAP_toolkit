@@ -1,4 +1,5 @@
 #include "GlobalVariable.h"
+#include "inference/Inference.h"
 #include <random>
 
 GlobalVariable::GlobalVariable()
@@ -13,6 +14,8 @@ GlobalVariable::GlobalVariable()
     {
         APArray.push_back(uid(rd));
     }
+
+    inference = std::make_shared<Inference>();
 }
 
 void GlobalVariable::InitCategory()
