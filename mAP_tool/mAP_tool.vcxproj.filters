@@ -34,6 +34,9 @@
     <Filter Include="소스 파일\renderer\WindowObserver">
       <UniqueIdentifier>{a3e2bbb1-528b-49b2-9662-f001f539159c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\inference">
+      <UniqueIdentifier>{6cad7e51-9403-435e-b458-6a452b54a146}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -44,9 +47,6 @@
     </ClCompile>
     <ClCompile Include="renderer\Renderer.cpp">
       <Filter>소스 파일\renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="mAP_calculation\DefaultMapCalculation.cpp">
-      <Filter>소스 파일\mAP_calculation</Filter>
     </ClCompile>
     <ClCompile Include="mAP_calculation\MapCalculation.cpp">
       <Filter>소스 파일\mAP_calculation</Filter>
@@ -102,6 +102,9 @@
     <ClCompile Include="GlobalVariable.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="inference\Inference.cpp">
+      <Filter>소스 파일\inference</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header.h">
@@ -112,9 +115,6 @@
     </ClInclude>
     <ClInclude Include="renderer\Renderer.h">
       <Filter>소스 파일\renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="mAP_calculation\DefaultMapCalculation.h">
-      <Filter>소스 파일\mAP_calculation</Filter>
     </ClInclude>
     <ClInclude Include="mAP_calculation\MapCalculation.h">
       <Filter>소스 파일\mAP_calculation</Filter>
@@ -181,6 +181,15 @@
     </ClInclude>
     <ClInclude Include="GlobalVariable.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="define.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inference\Inference.h">
+      <Filter>소스 파일\inference</Filter>
+    </ClInclude>
+    <ClInclude Include="inference\libIDL.h">
+      <Filter>소스 파일\inference</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
