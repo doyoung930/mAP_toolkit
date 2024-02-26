@@ -11,3 +11,5 @@
 *.lastbuildstate
 *.suo
 *.db
+mAP_tool/inference/lib/opencv_world490d.dll
+mAP_tool/inference/lib/opencv_world490d_1.dll
