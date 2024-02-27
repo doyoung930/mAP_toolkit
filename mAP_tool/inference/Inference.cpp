@@ -10,11 +10,11 @@ namespace fs = std::filesystem;
 Inference::Inference() {
     device = IDL::make_device(0, 0);
     handle = IDL::make_handle(device);
-    model_index = IDL::get_model_id((char*)"ocr_LPRNetS1B_rep_fp16");                           // ocr_LPRNetS1B_rep_fp16, od_YOLOv7_rep_fp16
+    model_index = IDL::get_model_id((char*)"od_YOLOv7_rep_fp16");                           // ocr_LPRNetS1B_rep_fp16, od_YOLOv7_rep_fp16
     model = IDL::make_model_instance(handle, model_index);
     video_ins = IDL::make_video_instance(device, (char*)"video");
    
-    model_name = std::filesystem::current_path().string() + "\\..\\model\\ocr_LPRNetS1B.aix";   // ocr_LPRNetS1B_rep_fp16.aix, yolov7.aix
+    model_name = std::filesystem::current_path().string() + "\\..\\model\\yolov7.aix";   // ocr_LPRNetS1B_rep_fp16.aix, yolov7.aix
     loadModel();
     initialize();
     block_size = IDL::get_decoder_data_block_size(model);
@@ -196,6 +196,7 @@ void Inference::run(std::string directory_path) {
                     file.close();
                 }
                 else {
+                    //´ÝÈ÷¸é ap °è»ê
                     std::cerr << "Unable to open file: " << filename << std::endl;
                 }
             }

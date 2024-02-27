@@ -38,9 +38,9 @@ void MapCalculation::CalculationTPFPFN() {
     auto iou_it = _id_IoU.begin();
     
     int tp = 0, fp = 0, fn = 0; // TP, FP, FN 값 초기화
+ 
 
-    std::vector<vector<float>> precisions; 
-    std::vector<vector<float>> recalls; 
+
 
     for (; true_it != _true_bboxes.end() && predicted_it != _predicted_bboxes.end();
         ++true_it, ++predicted_it, ++iou_it) {
@@ -62,17 +62,17 @@ void MapCalculation::CalculationTPFPFN() {
             }
         }
         // Precision과 Recall을 계산하여 PR 곡선에 저장
-        float precision = (tp + epsilon) / ((tp + fp) + epsilon);
-        float recall = (tp + epsilon) / ((tp + fn) + epsilon);
+        int precision = (tp + epsilon) / ((tp + fp) + epsilon);
+        int recall = (tp + epsilon) / ((tp + fn) + epsilon);
 
         precisions[true_it->id].push_back(precision);
         recalls[true_it->id].push_back(recall);
     }
-    for (int i = 1; i < precisions.size(); i++) {
-        float ap = calculateAP(precisions[i], recalls[i]);
-
-        this->aps.emplace_back(ap);
-    }
+ //   for (int i = 1; i < precisions.size(); i++) {
+//        float ap = calculateAP(precisions[i], recalls[i]);
+//
+ //       this->aps.emplace_back(ap);
+ //   }
   
 
     
@@ -80,7 +80,7 @@ void MapCalculation::CalculationTPFPFN() {
 }
 
 
-float MapCalculation::calculateAP(const std::vector<float>& precisions, const std::vector<float>& recalls) {
+float MapCalculation::calculateAP(const std::vector<int>& precisions, const std::vector<int>& recalls) {
 
 
     std::vector<float> interpolated_precisions;
