@@ -162,8 +162,9 @@ void Inference::run(std::string directory_path) {
                         int count = IDL::get_decoder_data_count(model);
                         processFrame();
 
-                        // Calculate IOU
-
+                        // TODO: Calculate IOU
+                        calculation->SaveIoU();
+                        calculation->CalculationTPFPFN();
                     }
 
                     //std::vector<std::string> lines;
