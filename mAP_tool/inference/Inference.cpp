@@ -2,6 +2,7 @@
 #define USE_NAMESPACE
 #include "Inference.h" 
 #include "libIDL.h"
+#include "mAP_calculation/MapCalculation.h"
 
 #include <fstream>
 namespace fs = std::filesystem;
@@ -19,7 +20,7 @@ Inference::Inference() {
     block_size = IDL::get_decoder_data_block_size(model);
     block = new float[block_size];
     
-    
+    calculation = std::make_shared<MapCalculation>();
 }
 
 Inference::~Inference() {
@@ -43,11 +44,11 @@ void Inference::initialize() {
 }
 
 void Inference::processFrame() {
-    _predicted_bboxes.clear();
+    calculation->GetPredictedBB().clear();
 
     int count = IDL::get_decoder_data_count(model);
 
-    _predicted_bboxes.reserve(count);
+    calculation->GetPredictedBB().reserve(count);
 
     IDL::reset_decoder_iterator(model);
     for (int i = 0; i < count; i++) {
@@ -59,7 +60,7 @@ void Inference::processFrame() {
         int xmax = int(block[4]);
         int ymax = int(block[5]);
 
-        _predicted_bboxes.emplace_back(class_id, xmin, ymin, xmax - xmin, ymax - ymin);
+        calculation->GetPredictedBB().emplace_back(class_id, xmin, ymin, xmax - xmin, ymax - ymin);
 
         IDL::next_decoder_data(model);
     }
@@ -89,8 +90,8 @@ std::string Inference::findTextFile(std::string fileName)
 
 void Inference::readTextFile(std::string textFileName, int width, int height)
 {
-    _true_bboxes.clear();
-    _true_bboxes.reserve(10);
+    calculation->GetTrueBB().clear();
+    calculation->GetTrueBB().reserve(10);
 
     std::fstream file(textFileName);
     if (file.is_open())
@@ -122,7 +123,7 @@ void Inference::readTextFile(std::string textFileName, int width, int height)
             BB.x = (x * width) - BB.width / 2;
             BB.y = (y * height) - BB.height / 2;
 
-            _true_bboxes.push_back(BB);
+            calculation->GetTrueBB().push_back(BB);
         }
     }
 }

@@ -6,6 +6,7 @@
 #include <filesystem>
 #include <iostream>
 #include <opencv2/opencv.hpp>
+#include <memory>
 
 #include "define.h"
 
@@ -16,8 +17,7 @@ public:
     void run(std::string directory_path);
 
 private:
-    std::vector<BoundingBox> _true_bboxes;
-    std::vector<BoundingBox> _predicted_bboxes;
+    std::shared_ptr<class MapCalculation> calculation;
 
     size_t device;
     size_t handle;

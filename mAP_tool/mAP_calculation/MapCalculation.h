@@ -8,7 +8,7 @@
 class MapCalculation
 {
 public:
-    
+    MapCalculation() {}
     MapCalculation(const std::vector<BoundingBox>& true_bboxes, const std::vector<BoundingBox>& predicted_bboxes) {
         // 텍스트 파일에서 읽은 실제 바운딩 박스와 예측된 바운딩 박스를 멤버 변수에 추가
         for (const auto& bbox : true_bboxes) {
@@ -35,6 +35,10 @@ public:
 
     void Truth_GetData(string directory_path);
     void Predicted_GetData(string directory_path);
+
+    std::vector<BoundingBox>& GetTrueBB() { return _true_bboxes; }
+    std::vector<BoundingBox>& GetPredictedBB() { return _predicted_bboxes; }
+    std::vector <IdIoU>& GetIdIOU() { return _id_IoU; }
 private:
     std::vector<BoundingBox> _true_bboxes;
     std::vector<BoundingBox> _predicted_bboxes;
