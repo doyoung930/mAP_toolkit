@@ -7,6 +7,8 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 
+#include "define.h"
+
 class Inference {
 public:
     Inference();
@@ -14,6 +16,9 @@ public:
     void run(std::string directory_path);
 
 private:
+    std::vector<BoundingBox> _true_bboxes;
+    std::vector<BoundingBox> _predicted_bboxes;
+
     size_t device;
     size_t handle;
     size_t model;
@@ -28,4 +33,6 @@ private:
     void loadModel();
     void initialize();
     void processFrame();
+    std::string findTextFile(std::string fileName);
+    void readTextFile(std::string textFileName, int width, int height);
 };

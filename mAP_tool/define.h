@@ -3,6 +3,15 @@
 struct BoundingBox {
 	int id;
 	float x, y, width, height;
+
+	BoundingBox() : id(0), x(0), y(0), width(0), height(0) {}
+	BoundingBox(int id, float x, float y, float width, float height) {
+		this->id = id;
+		this->x = x;
+		this->y = y;
+		this->width = width;
+		this->height = height;
+	}
 };
 struct IdIoU {
 	int id;
@@ -22,8 +31,3 @@ struct PrecisionRecall {
 	float precision;
 	float recall;
 };
-
-std::vector<std::string> id;
-
-float threshold = 0.5;
-float user_threshold;
