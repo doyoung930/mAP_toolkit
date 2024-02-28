@@ -1,21 +1,8 @@
 #include "MapCalculation.h"
 
 
-
+// IoU 저장 
 void MapCalculation::SaveIoU() {
-
-   //auto true_it = _true_bboxes.begin();
-   //auto predicted_it = _predicted_bboxes.begin();
-   //for (; true_it != _true_bboxes.end()
-   //    && predicted_it != _predicted_bboxes.end();
-   //    ++true_it, ++predicted_it) {
-   //    const int& class_name = true_it->id;
-   //    const BoundingBox& true_box = *true_it;
-   //    const BoundingBox& predicted_box = *predicted_it;
-   //
-   //    _id_IoU.emplace_back(class_name, CalculateIoU(true_box, predicted_box));
-   //}
-
     float temp_iou = 0;
     for (auto& true_it : _true_bboxes) {
         const int& class_name = true_it.id;
@@ -26,7 +13,7 @@ void MapCalculation::SaveIoU() {
     }
 }
 
-
+// IoU 계산
 float MapCalculation::CalculateIoU(const BoundingBox& box1, const BoundingBox& box2) {
     float intersection_width = std::max(0.f, std::min(box1.x + box1.width, box2.x + box2.width) - std::max(box1.x, box2.x));
     float intersection_height = std::max(0.f, std::min(box1.y + box1.height, box2.y + box2.height) - std::max(box1.y, box2.y));
@@ -40,7 +27,7 @@ float MapCalculation::CalculateIoU(const BoundingBox& box1, const BoundingBox& b
     return intersection_area / union_area;
 }
 
-
+// Confusion Matrix
 void MapCalculation::CalculationTPFPFN() {
     auto true_it = temp_true_bboxes.begin();
     auto predicted_it = temp_predicted_bboxes.begin();
@@ -114,8 +101,7 @@ void MapCalculation::CalculationTPFPFN() {
 
 
 }
-
-
+// AP 계산 
 float MapCalculation::calculateAP(const std::vector<int>& precisions, const std::vector<int>& recalls) {
 
 
@@ -140,6 +126,7 @@ float MapCalculation::calculateAP(const std::vector<int>& precisions, const std:
     return ap;
 }
 
+// mAP 계산
 float MapCalculation::calculateMAP() {
     float total_ap = 0.0;
     for (const auto& ap : aps) {
@@ -180,7 +167,6 @@ void MapCalculation::Truth_GetData(string directory_path){
 
 void MapCalculation::Predicted_GetData(string directory_path) {
 
-    // Ư�� ���丮�� �ִ� ��� .txt ���� Ž��
     for (const auto& entry : std::filesystem::directory_iterator(directory_path)) {
         if (entry.path().extension() == ".txt") {
             std::ifstream file(entry.path());
@@ -188,8 +174,6 @@ void MapCalculation::Predicted_GetData(string directory_path) {
                 std::cerr << "Failed to open file: " << entry.path().string() << std::endl;
                 continue;
             }
-
-            // ���� ���� �о _true_bboxes�� ����
             std::string line;
             while (std::getline(file, line)) {
                 std::istringstream iss(line);
@@ -202,7 +186,6 @@ void MapCalculation::Predicted_GetData(string directory_path) {
                 _true_bboxes.emplace_back(id, x, y, w, h);
             }
 
-            // ���� �ݱ�
             file.close();
         }
     }
