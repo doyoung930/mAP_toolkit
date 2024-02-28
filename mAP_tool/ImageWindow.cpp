@@ -90,6 +90,11 @@ void ImageWindow::ProcessAfterEndRender()
 {
 }
 
+void ImageWindow::UpdateGraph()
+{
+
+}
+
 void ImageWindow::TextCentered(std::string text, int BoxSize, int n)
 {
     auto windowWidth = BoxSize ;

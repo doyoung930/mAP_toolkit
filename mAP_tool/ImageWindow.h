@@ -9,6 +9,7 @@ public:
 	void Render();
 
 	virtual void ProcessAfterEndRender();
+	void UpdateGraph();
 	
 	void TextCentered(std::string text, int BoxSize, int n);
 

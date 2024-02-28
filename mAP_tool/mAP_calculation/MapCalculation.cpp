@@ -21,6 +21,7 @@ void MapCalculation::SaveIoU() {
         const int& class_name = true_it.id;
         for (auto& predicted_it : _predicted_bboxes) {
             temp_iou = temp_iou > CalculateIoU(true_it, predicted_it) ? temp_iou : CalculateIoU(true_it, predicted_it);
+
         }
         _id_IoU.emplace_back(class_name, temp_iou);
         temp_iou = 0.0;
@@ -70,8 +71,7 @@ void MapCalculation::CalculationTPFPFN() {
                 // fp
                 fp++;
             }
-        }
-       
+        }       
     }
     int temp = tp+fn;
     tp = 0, fp = 0, fn = 0; // TP, FP, FN �� �ʱ�ȭ
@@ -117,7 +117,7 @@ void MapCalculation::CalculationTPFPFN() {
 }
 
 
-float MapCalculation::calculateAP(const std::vector<int>& precisions, const std::vector<int>& recalls) {
+float MapCalculation::calculateAP(const std::vector<float>& precisions, const std::vector<float>& recalls) {
 
 
     std::vector<float> interpolated_precisions;

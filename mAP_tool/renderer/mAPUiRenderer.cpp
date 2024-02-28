@@ -292,6 +292,12 @@ void mAPUiRenderer::ProcessNotify()
             ATWd->SetIOU(iou);
         }
             break;
+        case EventEnum::UPDATE_IOU_GRAPH:
+        {
+            ImageWindow* IWnd = static_cast<ImageWindow*>(Windows[e.Serial]);
+            IWnd->UpdateGraph();
+        }
+            break;
         default:
             break;
         }

@@ -29,7 +29,7 @@ public:
 
     void CalculationTPFPFN();
 
-    float calculateAP(const std::vector<int>& precisions, const std::vector<int>& recalls);
+    float calculateAP(const std::vector<float>& precisions, const std::vector<float>& recalls);
 
     float calculateMAP();
 
@@ -49,8 +49,8 @@ private:
     std::vector<BoundingBox> _predicted_bboxes;
     std::vector<BoundingBox> temp_predicted_bboxes;
     std::vector <IdIoU> _id_IoU;
-    std::unordered_map<float, vector<float>> precisions;
-    std::unordered_map<float, vector<float>> recalls;
+    std::unordered_map<int, vector<float>> precisions;
+    std::unordered_map<int, vector<float>> recalls;
     // TP : 1, FN : 2, FP : 3 
     std::vector<ConfusionMatrix> confidence_matrix;
     std::unordered_map<int, std::tuple<int, int, int>> id_tpfnfp;

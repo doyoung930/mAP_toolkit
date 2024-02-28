@@ -16,6 +16,8 @@ public:
     ~Inference();
     void run(std::string directory_path);
 
+    std::shared_ptr<class MapCalculation> GetCalculation() { return calculation; }
+
 private:
     std::shared_ptr<class MapCalculation> calculation;
 
