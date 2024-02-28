@@ -19,7 +19,6 @@ struct IdIoU {
 };
 struct ConfusionMatrix {
 	int id;
-
 	int matrix;
 };
 struct TpFpFn {

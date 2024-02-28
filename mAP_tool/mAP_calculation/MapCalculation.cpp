@@ -4,16 +4,25 @@
 
 void MapCalculation::SaveIoU() {
 
-    auto true_it = _true_bboxes.begin();
-    auto predicted_it = _predicted_bboxes.begin();
-    for (; true_it != _true_bboxes.end()
-        && predicted_it != _predicted_bboxes.end();
-        ++true_it, ++predicted_it) {
-        const int& class_name = true_it->id;
-        const BoundingBox& true_box = *true_it;
-        const BoundingBox& predicted_box = *predicted_it;
+   //auto true_it = _true_bboxes.begin();
+   //auto predicted_it = _predicted_bboxes.begin();
+   //for (; true_it != _true_bboxes.end()
+   //    && predicted_it != _predicted_bboxes.end();
+   //    ++true_it, ++predicted_it) {
+   //    const int& class_name = true_it->id;
+   //    const BoundingBox& true_box = *true_it;
+   //    const BoundingBox& predicted_box = *predicted_it;
+   //
+   //    _id_IoU.emplace_back(class_name, CalculateIoU(true_box, predicted_box));
+   //}
 
-        _id_IoU.emplace_back(class_name, CalculateIoU(true_box, predicted_box));
+    float temp_iou = 0;
+    for (auto& true_it : _true_bboxes) {
+        const int& class_name = true_it.id;
+        for (auto& predicted_it : _predicted_bboxes) {
+            temp_iou = (temp_iou > CalculateIoU(true_it, predicted_it) ? temp_iou : CalculateIoU(true_it, predicted_it;
+        }
+        _id_IoU.emplace_back(class_name, temp_iou);
     }
 }
 
@@ -37,7 +46,7 @@ void MapCalculation::CalculationTPFPFN() {
     auto predicted_it = _predicted_bboxes.begin();
     auto iou_it = _id_IoU.begin();
     
-    int tp = 0, fp = 0, fn = 0; // TP, FP, FN °ª ÃÊ±âÈ­
+    int tp = 0, fp = 0, fn = 0; // TP, FP, FN ï¿½ï¿½ ï¿½Ê±ï¿½È­
  
 
 
@@ -61,18 +70,21 @@ void MapCalculation::CalculationTPFPFN() {
                 fp++;
             }
         }
-        // Precision°ú RecallÀ» °è»êÇÏ¿© PR °î¼±¿¡ ÀúÀå
+        // Precisionï¿½ï¿½ Recallï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ PR ï¿½î¼±ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         int precision = (tp + epsilon) / ((tp + fp) + epsilon);
         int recall = (tp + epsilon) / ((tp + fn) + epsilon);
 
         precisions[true_it->id].push_back(precision);
         recalls[true_it->id].push_back(recall);
     }
+
  //   for (int i = 1; i < precisions.size(); i++) {
 //        float ap = calculateAP(precisions[i], recalls[i]);
 //
  //       this->aps.emplace_back(ap);
  //   }
+
+
 }
 
 
@@ -110,7 +122,7 @@ float MapCalculation::calculateMAP() {
 
 void MapCalculation::Truth_GetData(string directory_path){
 
-    // Æ¯Á¤ µð·ºÅä¸®¿¡ ÀÖ´Â ¸ðµç .txt ÆÄÀÏ Å½»ö
+    // Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ .txt ï¿½ï¿½ï¿½ï¿½ Å½ï¿½ï¿½
     for (const auto& entry : std::filesystem::directory_iterator(directory_path)) {
         if (entry.path().extension() == ".txt") {
             std::ifstream file(entry.path());
@@ -119,7 +131,7 @@ void MapCalculation::Truth_GetData(string directory_path){
                 continue;
             }
 
-            // ÆÄÀÏ ³»¿ë ÀÐ¾î¼­ _true_bboxes¿¡ ÀúÀå
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ð¾î¼­ _true_bboxesï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             std::string line;
             while (std::getline(file, line)) {
                 std::istringstream iss(line);
@@ -132,7 +144,7 @@ void MapCalculation::Truth_GetData(string directory_path){
                 _true_bboxes.emplace_back(id, x, y, w, h);
             }
 
-            // ÆÄÀÏ ´Ý±â
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½Ý±ï¿½
             file.close();
         }
     }
@@ -140,7 +152,7 @@ void MapCalculation::Truth_GetData(string directory_path){
 
 void MapCalculation::Predicted_GetData(string directory_path) {
 
-    // Æ¯Á¤ µð·ºÅä¸®¿¡ ÀÖ´Â ¸ðµç .txt ÆÄÀÏ Å½»ö
+    // Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ .txt ï¿½ï¿½ï¿½ï¿½ Å½ï¿½ï¿½
     for (const auto& entry : std::filesystem::directory_iterator(directory_path)) {
         if (entry.path().extension() == ".txt") {
             std::ifstream file(entry.path());
@@ -149,7 +161,7 @@ void MapCalculation::Predicted_GetData(string directory_path) {
                 continue;
             }
 
-            // ÆÄÀÏ ³»¿ë ÀÐ¾î¼­ _true_bboxes¿¡ ÀúÀå
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ð¾î¼­ _true_bboxesï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             std::string line;
             while (std::getline(file, line)) {
                 std::istringstream iss(line);
@@ -162,7 +174,7 @@ void MapCalculation::Predicted_GetData(string directory_path) {
                 _true_bboxes.emplace_back(id, x, y, w, h);
             }
 
-            // ÆÄÀÏ ´Ý±â
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½Ý±ï¿½
             file.close();
         }
     }
