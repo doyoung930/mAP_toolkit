@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <algorithm>
 #include <vector>
+#include <map>
 #include "define.h"
 class MapCalculation
 {
@@ -43,16 +44,21 @@ public:
     std::vector<BoundingBox>& GetPredictedBB() { return _predicted_bboxes; }
     std::vector<BoundingBox>& GettempPredictedBB() { return temp_predicted_bboxes; }
     std::vector <IdIoU>& GetIdIOU() { return _id_IoU; }
+
+    std::unordered_map<int, vector<ConfusionMatrix>>& GetPrecisions() { return precisions; }
+    void SetPrecisions(std::unordered_map<int, vector<ConfusionMatrix>> pre) { precisions = pre; }
+    std::unordered_map<int, vector<ConfusionMatrix>> precisions;
+    std::unordered_map<int, vector<ConfusionMatrix>> recalls;
 private:
     std::vector<BoundingBox> _true_bboxes;
     std::vector<BoundingBox> temp_true_bboxes;
     std::vector<BoundingBox> _predicted_bboxes;
     std::vector<BoundingBox> temp_predicted_bboxes;
     std::vector <IdIoU> _id_IoU;
-    std::unordered_map<int, vector<float>> precisions;
-    std::unordered_map<int, vector<float>> recalls;
-    // TP : 1, FN : 2, FP : 3 
-    std::vector<ConfusionMatrix> confidence_matrix;
+ //   std::unordered_map<int, vector<float>> precisions;
+//    std::unordered_map<int, vector<float>> recalls;
+
+
     std::unordered_map<int, std::tuple<int, int, int>> id_tpfnfp;
    
 

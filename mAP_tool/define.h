@@ -19,7 +19,12 @@ struct IdIoU {
 };
 struct ConfusionMatrix {
 	int id;
-	int matrix;
+	float recall;
+	float precsision;
+	
+	int tpfn;
+	int tp, fp, fn;
+
 };
 struct TpFpFn {
 	int tp, fp, fn;

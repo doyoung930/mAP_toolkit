@@ -8,10 +8,8 @@ void MapCalculation::SaveIoU() {
         const int& class_name = true_it.id;
         for (auto& predicted_it : _predicted_bboxes) {
             temp_iou = temp_iou > CalculateIoU(true_it, predicted_it) ? temp_iou : CalculateIoU(true_it, predicted_it);
-
         }
         _id_IoU.emplace_back(class_name, temp_iou);
-        temp_iou = 0.0;
     }
 }
 
@@ -36,9 +34,6 @@ void MapCalculation::CalculationTPFPFN() {
     auto iou_it = _id_IoU.begin();
     
     int tp = 0, fp = 0, fn = 0; // TP, FP, FN �� �ʱ�ȭ
- 
-
-
 
     for (; true_it != temp_true_bboxes.end() && predicted_it != temp_predicted_bboxes.end();
         ++true_it, ++predicted_it, ++iou_it) {
@@ -46,22 +41,19 @@ void MapCalculation::CalculationTPFPFN() {
             // 
             if (iou_it->iou >= t) {
                 // tp
-                tp++;
+                recalls[true_it->id].tp++;
             }
             else {
                 // fn
-                fn++;
+                recalls[true_it->id].fn++;
             }
         }
-        else {
-            if (iou_it->iou >= t) {
-                // fp
-                fp++;
-            }
-        }       
     }
-    int temp = tp+fn;
-    tp = 0, fp = 0, fn = 0; // TP, FP, FN �� �ʱ�ȭ
+    for (auto& pair : recalls) {
+        pair.second.tpfn = pair.second.tp + pair.second.fn;
+        recalls[true_it->id].tp = 0;
+        recalls[true_it->id].fn = 0;
+    }
     true_it = temp_true_bboxes.begin();
     predicted_it = temp_predicted_bboxes.begin();
     iou_it = _id_IoU.begin();
@@ -71,28 +63,31 @@ void MapCalculation::CalculationTPFPFN() {
             // 
             if (iou_it->iou >= t) {
                 // tp
-                tp++;
+                recalls[true_it->id].tp++;
+                precisions[true_it->id].tp++;
             }
             else {
                 // fn
-                fn++;
+                recalls[true_it->id].fn++;
+                precisions[true_it->id].fn++;
             }
         }
         else {
             if (iou_it->iou >= t) {
                 // fp
-                fp++;
+                recalls[true_it->id].fp++;
+                precisions[true_it->id].fp++;
             }
             else
             {
                 continue;
             }
         }
-        float precision = round(((tp) / (tp + fp + 0.0001f)) * 1000) / 1000;
-        float recall = round((tp) / (temp)) *1000/1000;
+        float temp_precision = round((precisions[true_it->id].tp / (precisions[true_it->id].tp + precisions[true_it->id].fp + 0.0001f)) * 1000) / 1000;
+        float temp_recall = round((recalls[true_it->id].tp) / (recalls[true_it->id].tpfn)) *1000/1000;
 
-        precisions[true_it->id].push_back(precision);
-        recalls[true_it->id].push_back(recall);
+        precisions[true_it->id].precsision = temp_precision;
+        recalls[true_it->id].recall = temp_recall;
     }
  //   for (int i = 1; i < precisions.size(); i++) {
 //        float ap = calculateAP(precisions[i], recalls[i]);
@@ -102,7 +97,6 @@ void MapCalculation::CalculationTPFPFN() {
 
 
 }
-
 // AP 계산 
 float MapCalculation::calculateAP(const std::vector<float>& precisions, const std::vector<float>& recalls) {
 
@@ -139,7 +133,6 @@ float MapCalculation::calculateMAP() {
 
 void MapCalculation::Truth_GetData(string directory_path){
 
-    // Ư�� ���丮�� �ִ� ��� .txt ���� Ž��
     for (const auto& entry : std::filesystem::directory_iterator(directory_path)) {
         if (entry.path().extension() == ".txt") {
             std::ifstream file(entry.path());
@@ -148,7 +141,6 @@ void MapCalculation::Truth_GetData(string directory_path){
                 continue;
             }
 
-            // ���� ���� �о _true_bboxes�� ����
             std::string line;
             while (std::getline(file, line)) {
                 std::istringstream iss(line);
@@ -161,7 +153,6 @@ void MapCalculation::Truth_GetData(string directory_path){
                 _true_bboxes.emplace_back(id, x, y, w, h);
             }
 
-            // ���� �ݱ�
             file.close();
         }
     }
