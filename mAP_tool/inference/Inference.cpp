@@ -61,6 +61,7 @@ void Inference::processFrame() {
         int ymax = int(block[5]);
 
         calculation->GetPredictedBB().emplace_back(class_id, xmin, ymin, xmax - xmin, ymax - ymin);
+        calculation->GettempPredictedBB().emplace_back(class_id, xmin, ymin, xmax - xmin, ymax - ymin);
 
         IDL::next_decoder_data(model);
     }
@@ -124,6 +125,7 @@ void Inference::readTextFile(std::string textFileName, int width, int height)
             BB.y = (y * height) - BB.height / 2;
 
             calculation->GetTrueBB().push_back(BB);
+            calculation->GettempTrueBB().push_back(BB);
         }
     }
 }
@@ -161,10 +163,10 @@ void Inference::run(std::string directory_path) {
                         IDL::forward(model);
                         int count = IDL::get_decoder_data_count(model);
                         processFrame();
-
                         // TODO: Calculate IOU
                         calculation->SaveIoU();
-                        calculation->CalculationTPFPFN();
+                        
+                       
                     }
                     
                     file.close();
@@ -179,6 +181,8 @@ void Inference::run(std::string directory_path) {
     catch (const std::exception& ex) {
         std::cerr << "Error: " << ex.what() << std::endl;
     }
+    calculation->CalculationTPFPFN();
+
      //   else
     //        break;
             

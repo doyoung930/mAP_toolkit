@@ -39,11 +39,15 @@ public:
     void SetIOU(float iou) { t = iou; }
 
     std::vector<BoundingBox>& GetTrueBB() { return _true_bboxes; }
+    std::vector<BoundingBox>& GettempTrueBB() { return temp_true_bboxes; }
     std::vector<BoundingBox>& GetPredictedBB() { return _predicted_bboxes; }
+    std::vector<BoundingBox>& GettempPredictedBB() { return temp_predicted_bboxes; }
     std::vector <IdIoU>& GetIdIOU() { return _id_IoU; }
 private:
     std::vector<BoundingBox> _true_bboxes;
+    std::vector<BoundingBox> temp_true_bboxes;
     std::vector<BoundingBox> _predicted_bboxes;
+    std::vector<BoundingBox> temp_predicted_bboxes;
     std::vector <IdIoU> _id_IoU;
     std::unordered_map<int, vector<int>> precisions;
     std::unordered_map<int, vector<int>> recalls;
