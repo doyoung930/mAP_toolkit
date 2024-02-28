@@ -22,8 +22,8 @@ void CategoriesWindow::Render()
         }
         ImGui::EndListBox();
     }
-    Observer->OnNotify(MAINIMAGEWINDOW, EventEnum::SET_CURRENT_SELECT, &CurrentSelectIndex);
-    Observer->OnNotify(MAINIMAGELISTWINDOW, EventEnum::SET_CURRENT_SELECT, &CurrentSelectIndex);
+    Observer->OnNotify(MAINGRAPHWINDOW, EventEnum::SET_CURRENT_SELECT, &CurrentSelectIndex);
+    Observer->OnNotify(MAINDRAWAPWINDOW, EventEnum::SET_CURRENT_SELECT, &CurrentSelectIndex);
 }
 
 void CategoriesWindow::RenderUnicode(std::string str, int n)

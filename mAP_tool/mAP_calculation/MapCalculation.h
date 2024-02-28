@@ -26,6 +26,7 @@ public:
 
     void SaveIoU();
 
+    // 
     float CalculateIoU(const BoundingBox& box1, const BoundingBox& box2);
 
     void CalculationTPFPFN();
@@ -43,12 +44,14 @@ public:
     std::vector<BoundingBox>& GettempTrueBB() { return temp_true_bboxes; }
     std::vector<BoundingBox>& GetPredictedBB() { return _predicted_bboxes; }
     std::vector<BoundingBox>& GettempPredictedBB() { return temp_predicted_bboxes; }
-    std::vector <IdIoU>& GetIdIOU() { return _id_IoU; }
 
     std::unordered_map<int, vector<ConfusionMatrix>>& GetPrecisions() { return precisions; }
     void SetPrecisions(std::unordered_map<int, vector<ConfusionMatrix>> pre) { precisions = pre; }
     std::unordered_map<int, vector<ConfusionMatrix>> precisions;
     std::unordered_map<int, vector<ConfusionMatrix>> recalls;
+    std::vector<IdIoU>& GetIdIOU() { return _id_IoU; }
+    std::vector<float>& GetAps() { return aps; }
+
 private:
     std::vector<BoundingBox> _true_bboxes;
     std::vector<BoundingBox> temp_true_bboxes;

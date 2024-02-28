@@ -34,10 +34,10 @@ IMGUI_IMPL_API void     ImGui_ImplWin32_EnableAlphaCompositing(void* hwnd);   //
 
 #define FONTSIZE 18.0f
 
-#define MAINIMAGEWINDOW			'ImWd'
+#define MAINGRAPHWINDOW			'GrWd'
 #define MAINBUTTONWINDOW		'BtWd'
-#define MAINIMAGELISTWINDOW		'ILWd'
-#define MAINATTRIBUTEWINDOW		'AtWd'
+#define MAINDRAWAPWINDOW		'APWd'
+#define MAINDRAWMAPWINDOW		'MAWd'
 #define MAINCATEGORYWINDOW		'CtWd'
 
 

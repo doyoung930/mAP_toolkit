@@ -5,14 +5,17 @@
 GlobalVariable::GlobalVariable()
 {
     InitCategory();
-
-    std::uniform_real_distribution<float> uid(0.f, 1.f);
-    std::random_device rd;
-
     APArray.reserve(75);
-    for (int i = 0; i < 75; i++)
+
     {
-        APArray.push_back(uid(rd));
+        // Graph 테스트를 위한 임시 Ap 저장
+        std::uniform_real_distribution<float> uid(0.f, 1.f);
+        std::random_device rd;
+
+        for (int i = 0; i < 75; i++)
+        {
+            APArray.push_back(uid(rd));
+        }
     }
 
     inference = std::make_shared<Inference>();

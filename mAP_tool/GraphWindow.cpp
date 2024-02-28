@@ -1,15 +1,15 @@
-#include "ImageWindow.h"
+#include "GraphWindow.h"
 #include "GlobalVariable.h"
 
 #include <random>
 
-ImageWindow::ImageWindow(std::string Beginname, std::string Wndname, ImVec2 Wndpos, ImVec2 Wndsize, ImVec4 BgColor)
+GraphWindow::GraphWindow(std::string Beginname, std::string Wndname, ImVec2 Wndpos, ImVec2 Wndsize, ImVec4 BgColor)
     : Window(Beginname, Wndname, Wndpos, Wndsize, BgColor)
 {
 
 }
 
-void ImageWindow::Render()
+void GraphWindow::Render()
 {
     ImGuiStyle& style = ImGui::GetStyle();
 
@@ -86,16 +86,7 @@ void ImageWindow::Render()
     ImGui::Spacing();
 }
 
-void ImageWindow::ProcessAfterEndRender()
-{
-}
-
-void ImageWindow::UpdateGraph()
-{
-
-}
-
-void ImageWindow::TextCentered(std::string text, int BoxSize, int n)
+void GraphWindow::TextCentered(std::string text, int BoxSize, int n)
 {
     auto windowWidth = BoxSize ;
     auto textWidth = ImGui::CalcTextSize(text.c_str()).x;

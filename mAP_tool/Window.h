@@ -8,9 +8,6 @@ using std::vector;
 class Window;
 class WindowObserver;
 
-void SetOtherWindowName(Window* other, const char* text);
-void SetFilePath(Window* other, std::string text);
-
 class Window
 {
 public:
@@ -21,12 +18,16 @@ public:
 	// 창 생성과 이름 같은 공통적인 작업을 모아둠
 	void InitRender();
 	void EndRender();
-	virtual void ProcessAfterEndRender() {};
 
 	virtual void Render() = 0;
 
+	// 사진 Load, 현재 쓰지않음
 	bool LoadTextureFromFile(const char* filename, GLuint* out_texture, int* out_width, int* out_height);
+
+	// Window에서 제공해주는 디렉토리 경로 설정 창 Open
 	std::string GetFileDirectory();
+
+	// 간단한 한글 출력
 	void RenderUnicode(std::string str);
 
 	std::string ToString(std::wstring value);
@@ -35,6 +36,7 @@ public:
 	void SetObserver(WindowObserver* ob) { Observer = ob; };
 	void SetSelectIndex(int index);
 
+	// 오브젝트를 윈도우의 중앙에 배치하기 위한 좌표
 	ImVec2 GetWindowCenter(ImVec2 RenderObjectSize);
 
 protected:

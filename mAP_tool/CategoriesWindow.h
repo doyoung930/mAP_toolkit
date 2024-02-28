@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 
+// 0~9, 가, 나, 다... 에 대한 리스트 박스를 출력하는 Wnd
 class CategoriesWindow : public Window
 {
 public:

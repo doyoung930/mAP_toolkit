@@ -3,10 +3,10 @@
 #include "mAPUiRenderer.h"
 #include "Window.h"
 
-#include "ImageWindow.h"
+#include "DrawApWindow.h"
 #include "ButtonWindow.h"
-#include "ImageListWindow.h"
-#include "AttributeWindow.h"
+#include "DrawmAPWindow.h"
+#include "GraphWindow.h"
 #include "CategoriesWindow.h"
 
 #include "WindowObserver.h"
@@ -22,11 +22,11 @@ mAPUiRenderer::mAPUiRenderer()
 {
     WndObserver = WindowObserver::Instance();
 
-    Windows.insert(std::pair(MAINIMAGEWINDOW, new ImageWindow(string("Image"), string("Graph"), ImVec2(100, 0), ImVec2(1200, 900), ImVec4(0.2, 0.2, 0.2, .8f))));
+    Windows.insert(std::pair(MAINGRAPHWINDOW, new GraphWindow(string("Image"), string("Graph"), ImVec2(100, 0), ImVec2(1200, 900), ImVec4(0.2, 0.2, 0.2, .8f))));
     Windows[MAINBUTTONWINDOW] = new ButtonWindow(string("Button List"), string("Buttons"), ImVec2(0, 0), ImVec2(100, 900), ImVec4(0.2, 0.2, 0.2, 0.8f));
     //TODO: 크기가 15 넘어감 왜?
-    Windows[MAINIMAGELISTWINDOW] = new ImageListWindow(string("Image List"), string("Select AP"), ImVec2(1300, 0), ImVec2(285, 250), ImVec4(0.2, 0.2, 0.2, 0.8f));
-    Windows[MAINATTRIBUTEWINDOW] = new AttributeWindow(string("Attribute"), string("mAP / IOU"), ImVec2(1300, 250), ImVec2(285, 250), ImVec4(0.2, 0.2, 0.2, 0.8f));
+    Windows[MAINDRAWAPWINDOW] = new DrawApWindow(string("Image List"), string("Select AP"), ImVec2(1300, 0), ImVec2(285, 250), ImVec4(0.2, 0.2, 0.2, 0.8f));
+    Windows[MAINDRAWMAPWINDOW] = new DrawmAPWindow(string("Attribute"), string("mAP / IOU"), ImVec2(1300, 250), ImVec2(285, 250), ImVec4(0.2, 0.2, 0.2, 0.8f));
     Windows[MAINCATEGORYWINDOW] = new CategoriesWindow(string("Category"), string("Class"), ImVec2(1300, 500), ImVec2(285, 400), ImVec4(0.2, 0.2, 0.2, 0.8f));
 
     for (auto& w : Windows)
@@ -42,11 +42,6 @@ mAPUiRenderer::~mAPUiRenderer()
     {
         delete w.second;
     }
-}
-
-void mAPUiRenderer::render()
-{
-	ImGui::Begin("Test");
 }
 
 int mAPUiRenderer::Main()
@@ -136,7 +131,6 @@ int mAPUiRenderer::Main()
             w.second->InitRender();             // Being() Function
             w.second->Render();                 // Main Render
             w.second->EndRender();              // End() Function
-            w.second->ProcessAfterEndRender();  // Reset Font or Bg Color
         }
 
         // Process Event Queue Notify
@@ -275,27 +269,14 @@ void mAPUiRenderer::ProcessNotify()
 
         switch (e.evet)
         {
-        case EventEnum::SET_DIRECTORY_PATH:
-        {
-            ImageListWindow* ILWd = dynamic_cast<ImageListWindow*>(Windows[e.Serial]);
-            string path((char*)e.mess);
-            ILWd->LoadImageWithPath(path);  //*(std::string*)e.mess
-        }
-            break;
         case EventEnum::SET_CURRENT_SELECT:
             Windows[e.Serial]->SetSelectIndex(*(int*)e.mess);
             break;
         case EventEnum::SET_IOU:
         {
-            AttributeWindow* ATWd = static_cast<AttributeWindow*>(Windows[e.Serial]);
+            DrawmAPWindow* ATWd = static_cast<DrawmAPWindow*>(Windows[e.Serial]);
             string iou((char*)e.mess);
             ATWd->SetIOU(iou);
-        }
-            break;
-        case EventEnum::UPDATE_IOU_GRAPH:
-        {
-            ImageWindow* IWnd = static_cast<ImageWindow*>(Windows[e.Serial]);
-            IWnd->UpdateGraph();
         }
             break;
         default:
