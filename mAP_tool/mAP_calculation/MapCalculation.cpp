@@ -1,5 +1,5 @@
 #include "MapCalculation.h"
-
+#include "define.h"
 
 // IoU 저장 
 void MapCalculation::SaveIoU() {
@@ -10,6 +10,7 @@ void MapCalculation::SaveIoU() {
             temp_iou = temp_iou > CalculateIoU(true_it, predicted_it) ? temp_iou : CalculateIoU(true_it, predicted_it);
         }
         _id_IoU.emplace_back(class_name, temp_iou);
+        temp_iou = 0;
     }
 }
 
@@ -32,6 +33,7 @@ void MapCalculation::CalculationTPFPFN() {
     auto true_it = temp_true_bboxes.begin();
     auto predicted_it = temp_predicted_bboxes.begin();
     auto iou_it = _id_IoU.begin();
+    PRCurve.clear();
     
     int tp = 0, fp = 0, fn = 0; // TP, FP, FN �� �ʱ�ȭ
 
@@ -41,18 +43,28 @@ void MapCalculation::CalculationTPFPFN() {
             // 
             if (iou_it->iou >= t) {
                 // tp
-                recalls[true_it->id].tp++;
+                precisions_recalls[true_it->id].tp++;
             }
             else {
                 // fn
-                recalls[true_it->id].fn++;
+                precisions_recalls[true_it->id].fn++;
+            }
+        }
+        else {
+            if (iou_it->iou >= t) {
+                // fp
+                precisions_recalls[true_it->id].fp++;
+            }
+            else
+            {
+                continue;
             }
         }
     }
-    for (auto& pair : recalls) {
+    for (auto& pair : precisions_recalls) {
         pair.second.tpfn = pair.second.tp + pair.second.fn;
-        recalls[true_it->id].tp = 0;
-        recalls[true_it->id].fn = 0;
+        pair.second.tp = 0;
+        pair.second.fn = 0;
     }
     true_it = temp_true_bboxes.begin();
     predicted_it = temp_predicted_bboxes.begin();
@@ -63,31 +75,30 @@ void MapCalculation::CalculationTPFPFN() {
             // 
             if (iou_it->iou >= t) {
                 // tp
-                recalls[true_it->id].tp++;
-                precisions[true_it->id].tp++;
+                precisions_recalls[true_it->id].tp++;
             }
             else {
                 // fn
-                recalls[true_it->id].fn++;
-                precisions[true_it->id].fn++;
+                precisions_recalls[true_it->id].fn++;
             }
         }
         else {
             if (iou_it->iou >= t) {
                 // fp
-                recalls[true_it->id].fp++;
-                precisions[true_it->id].fp++;
+                precisions_recalls[true_it->id].fp++;
             }
             else
             {
                 continue;
             }
         }
-        float temp_precision = round((precisions[true_it->id].tp / (precisions[true_it->id].tp + precisions[true_it->id].fp + 0.0001f)) * 1000) / 1000;
-        float temp_recall = round((recalls[true_it->id].tp) / (recalls[true_it->id].tpfn)) *1000/1000;
+        float temp_precision = round(((float)precisions_recalls[true_it->id].tp / (precisions_recalls[true_it->id].tp + precisions_recalls[true_it->id].fp + 0.0001f)) * 1000) / 1000;
+        float temp_recall = round(((float)precisions_recalls[true_it->id].tp) / (precisions_recalls[true_it->id].tpfn + 0.0001f)) *1000/1000;
 
-        precisions[true_it->id].precsision = temp_precision;
-        recalls[true_it->id].recall = temp_recall;
+        precisions_recalls[true_it->id].precsision = temp_precision;
+        precisions_recalls[true_it->id].recall = temp_recall;
+
+        PRCurve[true_it->id].push_back(temp_recall);
     }
  //   for (int i = 1; i < precisions.size(); i++) {
 //        float ap = calculateAP(precisions[i], recalls[i]);

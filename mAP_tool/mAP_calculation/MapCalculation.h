@@ -45,12 +45,14 @@ public:
     std::vector<BoundingBox>& GetPredictedBB() { return _predicted_bboxes; }
     std::vector<BoundingBox>& GettempPredictedBB() { return temp_predicted_bboxes; }
 
-    std::unordered_map<int, vector<ConfusionMatrix>>& GetPrecisions() { return precisions; }
-    void SetPrecisions(std::unordered_map<int, vector<ConfusionMatrix>> pre) { precisions = pre; }
-    std::unordered_map<int, vector<ConfusionMatrix>> precisions;
-    std::unordered_map<int, vector<ConfusionMatrix>> recalls;
+    //std::unordered_map<int, vector<ConfusionMatrix>>& GetPrecisions() { return precisions; }
+    //void SetPrecisions(std::unordered_map<int, vector<ConfusionMatrix>> pre) { precisions = pre; }
+    std::unordered_map<int, ConfusionMatrix> precisions_recalls;
+    //std::unordered_map<int, ConfusionMatrix> recalls;
     std::vector<IdIoU>& GetIdIOU() { return _id_IoU; }
     std::vector<float>& GetAps() { return aps; }
+
+    std::unordered_map<int, std::vector<float>> PRCurve;
 
 private:
     std::vector<BoundingBox> _true_bboxes;
