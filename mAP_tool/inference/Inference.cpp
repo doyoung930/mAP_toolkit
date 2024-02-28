@@ -166,32 +166,6 @@ void Inference::run(std::string directory_path) {
                         calculation->SaveIoU();
                         calculation->CalculationTPFPFN();
                     }
-
-                    //std::vector<std::string> lines;
-                    //std::string line;
-                    //lines.reserve(4);
-                    //std::stringstream StringStream(content);
-                    //while (std::getline(StringStream, line, '\n'))
-                    //{
-                    //    lines.push_back(line);
-                    //}
-                    //
-                    //std::string ResultString = "";
-                    //for (const auto& l : lines)
-                    //{
-                    //    std::stringstream Linecontent(l);
-                    //    std::string temp;
-                    //    Linecontent >> temp;
-                    //    ResultString += GetIntToStr(temp);
-                    //}
-                    //
-                    ////if (std::string::npos == filename.find(ResultString))
-                    //std::string temp = GetRealFilename(filename);
-                    //if (temp != ResultString)
-                    //{
-                    //    std::cout << "File: " << filename << std::endl;
-                    //    std::cout << "\"" << ResultString << "\" is Different!" << std::endl;
-                    //}
                     
                     file.close();
                 }

@@ -73,10 +73,6 @@ void MapCalculation::CalculationTPFPFN() {
 //
  //       this->aps.emplace_back(ap);
  //   }
-  
-
-    
-
 }
 
 

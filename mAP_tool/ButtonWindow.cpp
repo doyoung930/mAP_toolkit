@@ -9,8 +9,8 @@
 using std::cout;
 using std::endl;
 
-ButtonWindow::ButtonWindow(std::string Beginname, std::string Wndname, ImVec2 Wndpos, ImVec2 Wndsize)
-    : Window(Beginname, Wndname, Wndpos, Wndsize)
+ButtonWindow::ButtonWindow(std::string Beginname, std::string Wndname, ImVec2 Wndpos, ImVec2 Wndsize, ImVec4 BgColor)
+    : Window(Beginname, Wndname, Wndpos, Wndsize, BgColor)
 {
     //Observer->OnNotify(MAINATTRIBUTEWINDOW, EventEnum::SET_IOU, &items[0][0]);
 }

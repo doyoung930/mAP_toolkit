@@ -5,8 +5,8 @@
 #include "WindowObserver.h"
 #include "GlobalVariable.h"
 
-CategoriesWindow::CategoriesWindow(std::string Beginname, std::string Wndname, ImVec2 Wndpos, ImVec2 Wndsize)
-	: Window(Beginname, Wndname, Wndpos, Wndsize)
+CategoriesWindow::CategoriesWindow(std::string Beginname, std::string Wndname, ImVec2 Wndpos, ImVec2 Wndsize, ImVec4 BgColor)
+	: Window(Beginname, Wndname, Wndpos, Wndsize, BgColor)
 {
 }
 
@@ -14,7 +14,7 @@ void CategoriesWindow::Render()
 {
     std::vector<std::string>& CateArray = GlobalVariable::Instance()->GetCateArray();
 
-    if (ImGui::BeginListBox("Draw List", ImVec2(WndSize.x - 50, WndSize.y - 100)))
+    if (ImGui::BeginListBox("##Box", ImVec2(WndSize.x - 50, WndSize.y - 100)))
     {
         for (int n = 0; n < CateArray.size(); ++n)
         {

@@ -36,6 +36,8 @@ public:
     void Truth_GetData(string directory_path);
     void Predicted_GetData(string directory_path);
 
+    void SetIOU(float iou) { t = iou; }
+
     std::vector<BoundingBox>& GetTrueBB() { return _true_bboxes; }
     std::vector<BoundingBox>& GetPredictedBB() { return _predicted_bboxes; }
     std::vector <IdIoU>& GetIdIOU() { return _id_IoU; }
