@@ -4,6 +4,7 @@
 #include "WindowObserver.h"
 #include "GlobalVariable.h"
 #include "inference/Inference.h"
+#include "mAP_calculation/MapCalculation.h"
 
 #include <iostream>
 using std::cout;
@@ -18,8 +19,11 @@ ButtonWindow::ButtonWindow(std::string Beginname, std::string Wndname, ImVec2 Wn
 void ButtonWindow::Render()
 {
     static bool IsFirst = true;
+    auto inst = GlobalVariable::Instance();
     if (IsFirst)
     {
+        inst->GetInference()->GetCalculation()->SetIOU(std::stof(items[0]));
+
         Observer->OnNotify(MAINATTRIBUTEWINDOW, EventEnum::SET_IOU, &items[0][0]);
         IsFirst = false;
     }
@@ -37,8 +41,7 @@ void ButtonWindow::Render()
             //SetFilePath()
             Observer->OnNotify(MAINIMAGELISTWINDOW, EventEnum::SET_DIRECTORY_PATH, &FilePath[0]);
 
-            auto instance = GlobalVariable::Instance();
-            instance->GetInference()->run(FilePath);
+            inst->GetInference()->run(FilePath);
         }
 
     }
@@ -73,6 +76,16 @@ void ButtonWindow::Render()
         {
             //cout << "Changed" << endl;
             Observer->OnNotify(MAINATTRIBUTEWINDOW, EventEnum::SET_IOU, &items[item_current_idx][0]);
+
+            // Set IOU
+            if (item_current_idx == 0)
+            {
+                inst->GetInference()->GetCalculation()->SetIOU(1.0);
+            }
+            else
+            {
+                inst->GetInference()->GetCalculation()->SetIOU(std::stof(items[item_current_idx]));
+            }
         }
 
         ImGui::EndCombo();

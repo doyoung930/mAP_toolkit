@@ -12,5 +12,5 @@ public:
 
 private:
 	std::string FilePath;
-	std::string items[6] = { "All", "0.5", "0.6", "0.7", "0.8", "0.95" };
+	std::string items[5] = { /*"All",*/ "0.5", "0.6", "0.7", "0.8", "0.95" };
 };
