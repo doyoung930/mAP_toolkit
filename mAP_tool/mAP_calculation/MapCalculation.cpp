@@ -69,9 +69,6 @@ void MapCalculation::CalculationTPFPFN() {
                 // fp
                 fp++;
             }
-            else {
-                
-            }
         }
        
     }
@@ -98,8 +95,9 @@ void MapCalculation::CalculationTPFPFN() {
                 // fp
                 fp++;
             }
-            else {
-
+            else
+            {
+                continue;
             }
         }
         float precision = round(((tp) / (tp + fp + 0.0001f)) * 1000) / 1000;
