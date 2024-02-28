@@ -19,10 +19,12 @@ public:
 	mAPUiRenderer();
 	~mAPUiRenderer();
 
-	void render();
+	// 메세지 처리 (Window Communication)
+	void ProcessNotify();
 
 	// Imgui 관련 코드
 public:
+	// 메인 루프
 	int Main();
 
 	void Init();
@@ -38,8 +40,6 @@ public:
 	// Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
 	static LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-	void ProcessNotify();
-
 private:
 	// Data
 	static HGLRC            g_hRC;
@@ -47,7 +47,10 @@ private:
 	static int              g_Width;
 	static int              g_Height;
 
+	// 그릴 Window들
 	std::unordered_map<int, class Window*> Windows;
+
+	// 윈도우 통신용 Observer
 	class WindowObserver* WndObserver;
 };
 

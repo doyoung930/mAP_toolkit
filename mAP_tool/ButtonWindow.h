@@ -1,14 +1,13 @@
 #pragma once
 #include "Window.h"
 
+// 좌측 Button들 모아두는 Wnd
 class ButtonWindow : public Window
 {
 public:
 	ButtonWindow(std::string Beginname, std::string Wndname, ImVec2 Wndpos, ImVec2 Wndsize, ImVec4 BgColor = ImVec4(0.f, 0.f, 0.f, .8f));
 
 	void Render();
-
-	friend void SetFilePath(Window* other, std::string text);
 
 private:
 	std::string FilePath;

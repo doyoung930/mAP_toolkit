@@ -149,12 +149,12 @@
   <ItemGroup>
     <ClCompile Include="..\backends\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\backends\imgui_impl_win32.cpp" />
-    <ClCompile Include="AttributeWindow.cpp" />
+    <ClCompile Include="DrawmAPWindow.cpp" />
     <ClCompile Include="ButtonWindow.cpp" />
     <ClCompile Include="CategoriesWindow.cpp" />
     <ClCompile Include="GlobalVariable.cpp" />
-    <ClCompile Include="ImageListWindow.cpp" />
-    <ClCompile Include="ImageWindow.cpp" />
+    <ClCompile Include="DrawApWindow.cpp" />
+    <ClCompile Include="GraphWindow.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
@@ -179,14 +179,14 @@
     <ClInclude Include="..\backends\imgui_impl_opengl3.h" />
     <ClInclude Include="..\backends\imgui_impl_win32.h" />
     <ClInclude Include="define.h" />
-    <ClInclude Include="AttributeWindow.h" />
+    <ClInclude Include="DrawmAPWindow.h" />
     <ClInclude Include="ButtonWindow.h" />
     <ClInclude Include="CategoriesWindow.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="GlobalVariable.h" />
     <ClInclude Include="header.h" />
-    <ClInclude Include="ImageListWindow.h" />
-    <ClInclude Include="ImageWindow.h" />
+    <ClInclude Include="DrawApWindow.h" />
+    <ClInclude Include="GraphWindow.h" />
     <ClInclude Include="ImguiDefine.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />

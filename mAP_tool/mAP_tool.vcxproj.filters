@@ -78,10 +78,10 @@
     <ClCompile Include="Window.cpp">
       <Filter>소스 파일\renderer\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="ImageListWindow.cpp">
+    <ClCompile Include="DrawApWindow.cpp">
       <Filter>소스 파일\renderer\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="AttributeWindow.cpp">
+    <ClCompile Include="DrawmAPWindow.cpp">
       <Filter>소스 파일\renderer\Windows</Filter>
     </ClCompile>
     <ClCompile Include="ButtonWindow.cpp">
@@ -90,7 +90,7 @@
     <ClCompile Include="CategoriesWindow.cpp">
       <Filter>소스 파일\renderer\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="ImageWindow.cpp">
+    <ClCompile Include="GraphWindow.cpp">
       <Filter>소스 파일\renderer\Windows</Filter>
     </ClCompile>
     <ClCompile Include="WindowObserver.cpp">
@@ -155,10 +155,10 @@
     <ClInclude Include="imgui\stb_image.h">
       <Filter>GUI</Filter>
     </ClInclude>
-    <ClInclude Include="ImageListWindow.h">
+    <ClInclude Include="DrawApWindow.h">
       <Filter>소스 파일\renderer\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="AttributeWindow.h">
+    <ClInclude Include="DrawmAPWindow.h">
       <Filter>소스 파일\renderer\Windows</Filter>
     </ClInclude>
     <ClInclude Include="ButtonWindow.h">
@@ -167,7 +167,7 @@
     <ClInclude Include="CategoriesWindow.h">
       <Filter>소스 파일\renderer\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="ImageWindow.h">
+    <ClInclude Include="GraphWindow.h">
       <Filter>소스 파일\renderer\Windows</Filter>
     </ClInclude>
     <ClInclude Include="Event.h">

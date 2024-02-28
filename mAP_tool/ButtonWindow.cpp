@@ -24,7 +24,7 @@ void ButtonWindow::Render()
     {
         inst->GetInference()->GetCalculation()->SetIOU(std::stof(items[0]));
 
-        Observer->OnNotify(MAINATTRIBUTEWINDOW, EventEnum::SET_IOU, &items[0][0]);
+        Observer->OnNotify(MAINDRAWMAPWINDOW, EventEnum::SET_IOU, &items[0][0]);
         IsFirst = false;
     }
 
@@ -39,11 +39,14 @@ void ButtonWindow::Render()
         if (FilePath != "")
         {
             //SetFilePath()
-            Observer->OnNotify(MAINIMAGELISTWINDOW, EventEnum::SET_DIRECTORY_PATH, &FilePath[0]);
+            Observer->OnNotify(MAINDRAWAPWINDOW, EventEnum::SET_DIRECTORY_PATH, &FilePath[0]);
 
+            // Calculate
             inst->GetInference()->run(FilePath);
-        }
 
+            // Update Graph
+            inst->GetApArray() = inst->GetInference()->GetCalculation()->GetAps();
+        }
     }
 
     auto ButtonHeight = ImGui::GetTextLineHeight() + style.FramePadding.y * 2;
@@ -75,7 +78,7 @@ void ButtonWindow::Render()
         if (combo_preview_value != items[item_current_idx])
         {
             //cout << "Changed" << endl;
-            Observer->OnNotify(MAINATTRIBUTEWINDOW, EventEnum::SET_IOU, &items[item_current_idx][0]);
+            Observer->OnNotify(MAINDRAWMAPWINDOW, EventEnum::SET_IOU, &items[item_current_idx][0]);
 
             // Set IOU
             if (item_current_idx == 0)
