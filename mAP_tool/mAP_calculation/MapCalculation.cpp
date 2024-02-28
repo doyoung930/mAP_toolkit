@@ -23,6 +23,7 @@ void MapCalculation::SaveIoU() {
             temp_iou = temp_iou > CalculateIoU(true_it, predicted_it) ? temp_iou : CalculateIoU(true_it, predicted_it);
         }
         _id_IoU.emplace_back(class_name, temp_iou);
+        temp_iou = 0.0;
     }
 }
 
@@ -101,7 +102,7 @@ void MapCalculation::CalculationTPFPFN() {
             }
         }
         float precision = round(((tp) / (tp + fp + 0.0001f)) * 1000) / 1000;
-        int recall = round((tp) / (temp)) *1000/1000;
+        float recall = round((tp) / (temp)) *1000/1000;
 
         precisions[true_it->id].push_back(precision);
         recalls[true_it->id].push_back(recall);
