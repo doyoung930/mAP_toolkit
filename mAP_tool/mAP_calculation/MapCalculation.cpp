@@ -4,16 +4,25 @@
 
 void MapCalculation::SaveIoU() {
 
-    auto true_it = _true_bboxes.begin();
-    auto predicted_it = _predicted_bboxes.begin();
-    for (; true_it != _true_bboxes.end()
-        && predicted_it != _predicted_bboxes.end();
-        ++true_it, ++predicted_it) {
-        const int& class_name = true_it->id;
-        const BoundingBox& true_box = *true_it;
-        const BoundingBox& predicted_box = *predicted_it;
+   //auto true_it = _true_bboxes.begin();
+   //auto predicted_it = _predicted_bboxes.begin();
+   //for (; true_it != _true_bboxes.end()
+   //    && predicted_it != _predicted_bboxes.end();
+   //    ++true_it, ++predicted_it) {
+   //    const int& class_name = true_it->id;
+   //    const BoundingBox& true_box = *true_it;
+   //    const BoundingBox& predicted_box = *predicted_it;
+   //
+   //    _id_IoU.emplace_back(class_name, CalculateIoU(true_box, predicted_box));
+   //}
 
-        _id_IoU.emplace_back(class_name, CalculateIoU(true_box, predicted_box));
+    float temp_iou = 0;
+    for (auto& true_it : _true_bboxes) {
+        const int& class_name = true_it.id;
+        for (auto& predicted_it : _predicted_bboxes) {
+            temp_iou = (temp_iou > CalculateIoU(true_it, predicted_it) ? temp_iou : CalculateIoU(true_it, predicted_it;
+        }
+        _id_IoU.emplace_back(class_name, temp_iou);
     }
 }
 
@@ -71,7 +80,7 @@ void MapCalculation::CalculationTPFPFN() {
     for (int i = 1; i < precisions.size(); i++) {
         float ap = calculateAP(precisions[i], recalls[i]);
 
-        this->aps.emplace_back(ap);
+        aps.emplace_back(ap);
     }
   
 
